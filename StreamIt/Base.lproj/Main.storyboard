@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -21,7 +21,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ms9-sQ-rHT">
-                                <rect key="frame" x="0.0" y="-24" width="375" height="725"/>
+                                <rect key="frame" x="0.0" y="-24" width="375" height="572"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap to toggle your iP address" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YN9-54-Wjs">
@@ -91,7 +91,7 @@
                             <constraint firstItem="ms9-sQ-rHT" firstAttribute="leading" secondItem="Sdi-We-58t" secondAttribute="leading" id="ce0-jW-cMM"/>
                             <constraint firstItem="CyK-2Y-rYu" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="dyU-lL-ry0"/>
                             <constraint firstAttribute="trailing" secondItem="CBC-gH-1Jd" secondAttribute="trailing" id="fv7-Zt-3RI"/>
-                            <constraint firstItem="ms9-sQ-rHT" firstAttribute="bottom" secondItem="Sdi-We-58t" secondAttribute="bottom" constant="34" id="owu-DG-SVV"/>
+                            <constraint firstItem="ms9-sQ-rHT" firstAttribute="bottom" secondItem="Sdi-We-58t" secondAttribute="bottom" constant="-119" id="owu-DG-SVV"/>
                             <constraint firstItem="Sdi-We-58t" firstAttribute="top" secondItem="ms9-sQ-rHT" secondAttribute="top" constant="44" id="rYO-MT-gJu"/>
                             <constraint firstItem="CyK-2Y-rYu" firstAttribute="top" secondItem="Sdi-We-58t" secondAttribute="top" id="uWi-bu-YHw"/>
                             <constraint firstItem="Sdi-We-58t" firstAttribute="trailing" secondItem="ms9-sQ-rHT" secondAttribute="trailing" id="xIh-Es-gxP"/>
@@ -109,7 +109,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="212" y="316.99507389162562"/>
+            <point key="canvasLocation" x="212" y="316.19190404797604"/>
         </scene>
     </scenes>
     <resources>

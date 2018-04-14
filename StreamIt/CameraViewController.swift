@@ -46,9 +46,9 @@ class CameraViewController: UIViewController {
         self.serverSocket = GCDAsyncSocket(delegate: self, delegateQueue: self.serverQueue, socketQueue: self.socketWriteQueue)
 
         do {
-            try self.serverSocket?.accept(onInterface: self.ip, port: 10001)
+            try self.serverSocket?.accept(onInterface: self.ip, port: 8080)
         } catch {
-            print("Could not start listening on port 10001 (\(error))")
+            print("Could not start listening on port 8080 (\(error))")
         }
 
         // Do any additional setup after loading the view.
@@ -67,7 +67,7 @@ class CameraViewController: UIViewController {
         }
 
         if let ip = self.ip {
-            ipAddress = "http://\(ip):10001"
+            ipAddress = "http://\(ip):8080"
         } else {
             ipAddress = "IP address not available"
         }
@@ -129,13 +129,14 @@ class CameraViewController: UIViewController {
             previewLayer.bounds = CGRect(origin: CGPoint.zero, size: CGSize(width: bounds.width, height: bounds.height))
             previewLayer.videoGravity = .resize
             previewLayer.position = CGPoint(x: bounds.midX, y: bounds.midY)
-
             videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "AVSessionQueue", attributes: []))
             self.captureSession.addOutput(videoOutput)
             self.cameraView.layer.addSublayer(previewLayer)
 
             //self.previewLayer?.frame = self.view.layer.frame
             self.captureSession.startRunning()
+            print("Streaming settings:    ")
+            print(videoOutput.videoSettings)
         } catch {
             print("Could not begin a capture session (\(error))")
         }
