@@ -9,74 +9,160 @@
 import UIKit
 import AVFoundation
 import CocoaAsyncSocket
+import SceneKit
+import ARKit
 
-class CameraViewController: UIViewController {
 
-    @IBOutlet fileprivate weak var cameraView: UIView!
-    @IBOutlet fileprivate weak var plusLabel: UILabel!
-    @IBOutlet fileprivate weak var minusLabel: UILabel!
-    @IBOutlet fileprivate weak var zoomSlider: UISlider!
-    @IBOutlet fileprivate weak var ledImage: UIImageView!
-    @IBOutlet fileprivate weak var informationLabel: UILabel!
+class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
 
-    fileprivate let ip = IPChecker.getIP()
-    fileprivate let captureSession = AVCaptureSession()
-    fileprivate var previewLayer: AVCaptureVideoPreviewLayer?
-    fileprivate var captureDevice: AVCaptureDevice?
-    fileprivate let videoOutput = AVCaptureVideoDataOutput()
-    fileprivate var clients = [Int: StreamingSession]()
-    fileprivate var serverSocket: GCDAsyncSocket?
-    fileprivate var previousOrientation = UIDeviceOrientation.unknown
-    fileprivate var ipIsDisplayed = false
-    fileprivate var ipAddress = ""
+    @IBOutlet weak var cameraView: UIView!
+    @IBOutlet weak var plusLabel: UILabel!
+    @IBOutlet weak var minusLabel: UILabel!
+    @IBOutlet weak var zoomSlider: UISlider!
+    @IBOutlet weak var ledImage: UIImageView!
+    @IBOutlet weak var informationLabel: UILabel!
+    @IBOutlet weak var arView: ARSCNView!
+    
+    let streamPort = 8080
+    let ip = IPChecker.getIP()
+    let captureSession = AVCaptureSession()
+    var previewLayer: AVCaptureVideoPreviewLayer?
+    var captureDevice: AVCaptureDevice?
+    let videoOutput = AVCaptureVideoDataOutput()
+    var clients = [Int: StreamingSession]()
+    var serverSocket: GCDAsyncSocket?
+    var previousOrientation = UIDeviceOrientation.unknown
+    var ipIsDisplayed = false
+    var ipAddress = ""
 
-    fileprivate let serverQueue = DispatchQueue(label: "ServerQueue", attributes: [])
-    fileprivate let clientQueue = DispatchQueue(label: "ClientQueue", attributes: .concurrent)
-    fileprivate let socketWriteQueue = DispatchQueue(label: "SocketWriteQueue", attributes: .concurrent)
+    let serverQueue = DispatchQueue(label: "ServerQueue", attributes: [])
+    let clientQueue = DispatchQueue(label: "ClientQueue", attributes: .concurrent)
+    let socketWriteQueue = DispatchQueue(label: "SocketWriteQueue", attributes: .concurrent)
+    
 
     // MARK: - Lifecycle
-
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Intialize AR World Tracking
+        guard ARWorldTrackingConfiguration.isSupported else {
+            fatalError("""
+                ARKit is not available on this device. For apps that require ARKit
+                for core functionality, use the `arkit` key in the key in the
+                `UIRequiredDeviceCapabilities` section of the Info.plist to prevent
+                the app from installing. (If the app can't be installed, this error
+                can't be triggered in a production scenario.)
+                In apps where AR is an additive feature, use `isSupported` to
+                determine whether to show UI for launching AR experiences.
+            """) // For details, see https://developer.apple.com/documentation/arkit
+        }
 
-        // on crée la socket de service
-        // Le serveur tourne dans sa propre queue (les méthodes de délégate seront exécutées dans cette queue)
-        // Les clients possèdent également leur propre queue dexécution
-        print("Création du serveur sur l'IP \(String(describing: self.ip))")
+        // Intialize Socket
+        print("Client's IP \(String(describing: self.ip))")
+        informationLabel.text = self.ip! + ":" + String(streamPort)
         self.serverSocket = GCDAsyncSocket(delegate: self, delegateQueue: self.serverQueue, socketQueue: self.socketWriteQueue)
 
         do {
-            try self.serverSocket?.accept(onInterface: self.ip, port: 8080)
+            try self.serverSocket?.accept(onInterface: self.ip, port: UInt16(streamPort))
         } catch {
             print("Could not start listening on port 8080 (\(error))")
         }
-
+        
         // Do any additional setup after loading the view.
-        self.captureSession.sessionPreset = .medium
-        let devices = AVCaptureDevice.devices()
+//        self.captureSession.sessionPreset = .medium
+//        let devices = AVCaptureDevice.devices()
 
-        for device in devices {
-            if device.hasMediaType(.video) {
-                self.captureDevice = device
-                if captureDevice != nil {
-                    print("Capture device found")
-                    beginSession()
-                    break
-                }
-            }
-        }
+//        for device in devices {
+//            if device.hasMediaType(.video) {
+//                self.captureDevice = device
+//                if captureDevice != nil {
+//                    print("Capture device found")
+//                    beginSession()
+//                    break
+//                }
+//            }
+//        }
 
         if let ip = self.ip {
             ipAddress = "http://\(ip):8080"
         } else {
             ipAddress = "IP address not available"
         }
+        
+        // Start the view's AR session with a configuration that uses the rear camera,
+        // device position and orientation tracking, and plane detection.
+        let configuration = ARWorldTrackingConfiguration()
+        
+        if #available(iOS 11.3, *) {
+            configuration.planeDetection = [.horizontal, .vertical]
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        arView.session.run(configuration)
 
-        self.cameraView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(CameraViewController.tapOnCameraView)))
+        // Set a delegate to track the number of plane anchors for providing UI feedback.
+        arView.session.delegate = self
+        
+        // Prevent the screen from being dimmed after a while as users will likely
+        // have long periods of interaction without touching the screen or buttons.
+        UIApplication.shared.isIdleTimerDisabled = true
+        
+        // Show debug UI to view performance metrics (e.g. frames per second).
+        arView.showsStatistics = true
+        
+//        beginSession()
+//        self.cameraView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(CameraViewController.tapOnCameraView)))
     }
 
-    // MARK: - Actions
+    
+    
+    // MARK: - ARSessionDelegate
+    
+    func session(_ session: ARSession,didUpdate frame: ARFrame) {
+        let currentImg = frame.capturedImage
+        
+        
+        
+        let sourceImage = CIImage(cvImageBuffer: currentImg, options: nil)
+        guard let tempImage = self.context.createCGImage(sourceImage, from: sourceImage.extent) else { return }
+        let image = UIImage(cgImage: tempImage)
+        let imageToSend = UIImageJPEGRepresentation(image, 0)
+        
+        for (key, client) in self.clients {
+            if client.connected {
+                client.dataToSend = (imageToSend as NSData?)?.copy() as? Data
+            } else {
+                self.clients.removeValue(forKey: key)
+            }
+        }
+        
+        if self.clients.isEmpty {
+            DispatchQueue.main.async(execute: {
+                self.ledImage.image = UIImage(named: "led_gray")
+            })
+        }
+        
+        
+    }
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // ******************************************need clean up **********************
+    // MARK: - Actions
     @objc fileprivate func tapOnCameraView() {
 
         UIView.animate(withDuration: 1, animations: { [unowned self] in
@@ -101,8 +187,7 @@ class CameraViewController: UIViewController {
         }
     }
 
-    // MARK: - Helpers
-
+    // Begain Streaming Session
     fileprivate func beginSession() {
         do {
             guard let captureDevice = self.captureDevice else {

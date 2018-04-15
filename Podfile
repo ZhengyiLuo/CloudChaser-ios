@@ -7,4 +7,10 @@ target 'StreamIt' do
 
   # Pods for StreamIt
   pod 'CocoaAsyncSocket'  
+
+  source 'https://github.com/CocoaPods/Specs.git'
+  platform :ios, '11.0'
+  use_frameworks!
+
+  pod 'Starscream', '~> 3.0.2'
 end

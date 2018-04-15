@@ -15,6 +15,7 @@
 		1A7E8C561CC0005800EFE574 /* StreamingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E8C551CC0005800EFE574 /* StreamingSession.swift */; };
 		1A7E8C5B1CC0009500EFE574 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E8C571CC0009500EFE574 /* Queue.swift */; };
 		93DE98311FDEB62A0048600F /* IPChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DE98301FDEB62A0048600F /* IPChecker.m */; };
+		AD35AF722083D51200BEDEED /* CloudChaserClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD35AF712083D51100BEDEED /* CloudChaserClient.swift */; };
 		D7648D95123244066480132D /* Pods_StreamIt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE17C80916AC28319CB7FD0F /* Pods_StreamIt.framework */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +32,7 @@
 		1A7E8C571CC0009500EFE574 /* Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		93DE982F1FDEB62A0048600F /* IPChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPChecker.h; sourceTree = "<group>"; };
 		93DE98301FDEB62A0048600F /* IPChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPChecker.m; sourceTree = "<group>"; };
+		AD35AF712083D51100BEDEED /* CloudChaserClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudChaserClient.swift; sourceTree = "<group>"; };
 		E0B436531F2AD1B9C355A31E /* Pods-StreamIt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StreamIt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StreamIt/Pods-StreamIt.debug.xcconfig"; sourceTree = "<group>"; };
 		EE17C80916AC28319CB7FD0F /* Pods_StreamIt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StreamIt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9ABB0DB16BDA1B1F99D903B /* Pods-StreamIt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StreamIt.release.xcconfig"; path = "Pods/Target Support Files/Pods-StreamIt/Pods-StreamIt.release.xcconfig"; sourceTree = "<group>"; };
@@ -69,9 +71,9 @@
 		1A7E8C371CBFFC7400EFE574 /* StreamIt */ = {
 			isa = PBXGroup;
 			children = (
+				AD35AF6E2083D4C900BEDEED /* Sockets */,
 				1A7E8C381CBFFC7400EFE574 /* AppDelegate.swift */,
 				1A7E8C531CBFFF9A00EFE574 /* CameraViewController.swift */,
-				1A7E8C551CC0005800EFE574 /* StreamingSession.swift */,
 				1A7E8C571CC0009500EFE574 /* Queue.swift */,
 				1A7E8C3C1CBFFC7400EFE574 /* Main.storyboard */,
 				1A7E8C3F1CBFFC7400EFE574 /* Assets.xcassets */,
@@ -90,6 +92,15 @@
 				93DE98301FDEB62A0048600F /* IPChecker.m */,
 			);
 			path = IPChecker;
+			sourceTree = "<group>";
+		};
+		AD35AF6E2083D4C900BEDEED /* Sockets */ = {
+			isa = PBXGroup;
+			children = (
+				1A7E8C551CC0005800EFE574 /* StreamingSession.swift */,
+				AD35AF712083D51100BEDEED /* CloudChaserClient.swift */,
+			);
+			path = Sockets;
 			sourceTree = "<group>";
 		};
 		C719A516A1D03E16DA84CA2A /* Frameworks */ = {
@@ -218,10 +229,12 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-StreamIt/Pods-StreamIt-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework",
+				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -255,6 +268,7 @@
 			files = (
 				1A7E8C5B1CC0009500EFE574 /* Queue.swift in Sources */,
 				93DE98311FDEB62A0048600F /* IPChecker.m in Sources */,
+				AD35AF722083D51200BEDEED /* CloudChaserClient.swift in Sources */,
 				1A7E8C391CBFFC7400EFE574 /* AppDelegate.swift in Sources */,
 				1A7E8C541CBFFF9A00EFE574 /* CameraViewController.swift in Sources */,
 				1A7E8C561CC0005800EFE574 /* StreamingSession.swift in Sources */,
@@ -397,7 +411,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = StreamIt/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Zen.StreamIt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -420,7 +434,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = StreamIt/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Zen.StreamIt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
