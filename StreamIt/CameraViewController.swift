@@ -24,6 +24,7 @@ class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
     @IBOutlet weak var arView: ARSCNView!
     
     let streamPort = 8080
+    let cloudChaserServerUrl = "http://65.49.81.103:8080/ws"
     let ip = IPChecker.getIP()
     let captureSession = AVCaptureSession()
     var previewLayer: AVCaptureVideoPreviewLayer?
@@ -34,11 +35,12 @@ class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
     var previousOrientation = UIDeviceOrientation.unknown
     var ipIsDisplayed = false
     var ipAddress = ""
+    
 
     let serverQueue = DispatchQueue(label: "ServerQueue", attributes: [])
     let clientQueue = DispatchQueue(label: "ClientQueue", attributes: .concurrent)
     let socketWriteQueue = DispatchQueue(label: "SocketWriteQueue", attributes: .concurrent)
-    
+    var chaseClient: CloudChaserClient!
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -111,6 +113,7 @@ class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
         // Show debug UI to view performance metrics (e.g. frames per second).
         arView.showsStatistics = true
         
+        
 //        beginSession()
 //        self.cameraView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(CameraViewController.tapOnCameraView)))
     }
@@ -122,6 +125,9 @@ class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
     func session(_ session: ARSession,didUpdate frame: ARFrame) {
         let currentImg = frame.capturedImage
         
+//        let orientation: UIInterfaceOrientation = UIApplication.shared.statusBarOrientation
+//        let vpSize = CGSize(width:1280, height:1080)
+//        print(frame.displayTransform(for: orientation, viewportSize: vpSize))
         
         
         let sourceImage = CIImage(cvImageBuffer: currentImg, options: nil)
@@ -148,6 +154,11 @@ class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
 
     
     
+    @IBAction func btn_Connect(_ sender: UIButton) {
+        // Initialize Streaming Session
+        chaseClient = CloudChaserClient(serverUrl: cloudChaserServerUrl, phoneUrl: "http://\(self.ip!):8080" )
+        chaseClient.connect()
+    }
     
     
     

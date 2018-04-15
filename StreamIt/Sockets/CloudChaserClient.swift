@@ -11,22 +11,28 @@ import Starscream
 
 class CloudChaserClient: WebSocketDelegate{
     
-    var chaseClient :WebSocketClient!
-    
-    init(url: String) {
-        chaseClient = WebSocket(url: URL(string: url)!)
-        chaseClient.delegate = self
+    var chaseClientSocket :WebSocketClient!
+    var phoneUrl: String!
+    init(serverUrl: String, phoneUrl: String) {
+        chaseClientSocket = WebSocket(url: URL(string: serverUrl)!)
+        chaseClientSocket.delegate = self
+        self.phoneUrl = phoneUrl
+        
     }
     
     
     // Check if connection is valid
     func connect() -> Bool{
-        chaseClient.connect()
+        chaseClientSocket.connect()
         return true
     }
     
     func websocketDidConnect(socket: WebSocketClient) {
         print("websocket is connected")
+        if let currentPhoneUrl = self.phoneUrl{
+            chaseClientSocket.write(string: "Client URL|\(currentPhoneUrl)")
+        }
+        
     }
     
     func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
