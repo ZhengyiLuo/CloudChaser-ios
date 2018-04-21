@@ -16,6 +16,14 @@
 		1A7E8C5B1CC0009500EFE574 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E8C571CC0009500EFE574 /* Queue.swift */; };
 		93DE98311FDEB62A0048600F /* IPChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DE98301FDEB62A0048600F /* IPChecker.m */; };
 		AD35AF722083D51200BEDEED /* CloudChaserClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD35AF712083D51100BEDEED /* CloudChaserClient.swift */; };
+		AD35AF752085282A00BEDEED /* yoloObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD35AF742085282A00BEDEED /* yoloObject.swift */; };
+		AD560933208BC94D00DF9C37 /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD560932208BC94C00DF9C37 /* Box.swift */; };
+		AD560938208BC97C00DF9C37 /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD560934208BC97B00DF9C37 /* SCNVector3+Extensions.swift */; };
+		AD560939208BC97C00DF9C37 /* SCNVector4+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD560935208BC97B00DF9C37 /* SCNVector4+Extensions.swift */; };
+		AD56093A208BC97C00DF9C37 /* SCNMatrix4+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD560936208BC97B00DF9C37 /* SCNMatrix4+Extensions.swift */; };
+		AD56093B208BC97C00DF9C37 /* SCNNode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD560937208BC97C00DF9C37 /* SCNNode+Extensions.swift */; };
+		AD56093D208BC9D300DF9C37 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD56093C208BC9D300DF9C37 /* Utilities.swift */; };
+		AD97CA622089BBBB0004D876 /* ARassets.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = AD97CA612089BBBB0004D876 /* ARassets.scnassets */; };
 		D7648D95123244066480132D /* Pods_StreamIt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE17C80916AC28319CB7FD0F /* Pods_StreamIt.framework */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +41,14 @@
 		93DE982F1FDEB62A0048600F /* IPChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPChecker.h; sourceTree = "<group>"; };
 		93DE98301FDEB62A0048600F /* IPChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPChecker.m; sourceTree = "<group>"; };
 		AD35AF712083D51100BEDEED /* CloudChaserClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudChaserClient.swift; sourceTree = "<group>"; };
+		AD35AF742085282A00BEDEED /* yoloObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = yoloObject.swift; sourceTree = "<group>"; };
+		AD560932208BC94C00DF9C37 /* Box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
+		AD560934208BC97B00DF9C37 /* SCNVector3+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Extensions.swift"; sourceTree = "<group>"; };
+		AD560935208BC97B00DF9C37 /* SCNVector4+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNVector4+Extensions.swift"; sourceTree = "<group>"; };
+		AD560936208BC97B00DF9C37 /* SCNMatrix4+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNMatrix4+Extensions.swift"; sourceTree = "<group>"; };
+		AD560937208BC97C00DF9C37 /* SCNNode+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNNode+Extensions.swift"; sourceTree = "<group>"; };
+		AD56093C208BC9D300DF9C37 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		AD97CA612089BBBB0004D876 /* ARassets.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = ARassets.scnassets; sourceTree = "<group>"; };
 		E0B436531F2AD1B9C355A31E /* Pods-StreamIt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StreamIt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StreamIt/Pods-StreamIt.debug.xcconfig"; sourceTree = "<group>"; };
 		EE17C80916AC28319CB7FD0F /* Pods_StreamIt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StreamIt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9ABB0DB16BDA1B1F99D903B /* Pods-StreamIt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StreamIt.release.xcconfig"; path = "Pods/Target Support Files/Pods-StreamIt/Pods-StreamIt.release.xcconfig"; sourceTree = "<group>"; };
@@ -71,12 +87,14 @@
 		1A7E8C371CBFFC7400EFE574 /* StreamIt */ = {
 			isa = PBXGroup;
 			children = (
+				AD35AF73208527FE00BEDEED /* ARObjects */,
 				AD35AF6E2083D4C900BEDEED /* Sockets */,
 				1A7E8C381CBFFC7400EFE574 /* AppDelegate.swift */,
 				1A7E8C531CBFFF9A00EFE574 /* CameraViewController.swift */,
 				1A7E8C571CC0009500EFE574 /* Queue.swift */,
 				1A7E8C3C1CBFFC7400EFE574 /* Main.storyboard */,
 				1A7E8C3F1CBFFC7400EFE574 /* Assets.xcassets */,
+				AD97CA612089BBBB0004D876 /* ARassets.scnassets */,
 				1A7E8C411CBFFC7400EFE574 /* LaunchScreen.storyboard */,
 				1A7E8C441CBFFC7400EFE574 /* Info.plist */,
 				93DE982E1FDEB62A0048600F /* IPChecker */,
@@ -101,6 +119,20 @@
 				AD35AF712083D51100BEDEED /* CloudChaserClient.swift */,
 			);
 			path = Sockets;
+			sourceTree = "<group>";
+		};
+		AD35AF73208527FE00BEDEED /* ARObjects */ = {
+			isa = PBXGroup;
+			children = (
+				AD56093C208BC9D300DF9C37 /* Utilities.swift */,
+				AD560936208BC97B00DF9C37 /* SCNMatrix4+Extensions.swift */,
+				AD560937208BC97C00DF9C37 /* SCNNode+Extensions.swift */,
+				AD560934208BC97B00DF9C37 /* SCNVector3+Extensions.swift */,
+				AD560935208BC97B00DF9C37 /* SCNVector4+Extensions.swift */,
+				AD560932208BC94C00DF9C37 /* Box.swift */,
+				AD35AF742085282A00BEDEED /* yoloObject.swift */,
+			);
+			path = ARObjects;
 			sourceTree = "<group>";
 		};
 		C719A516A1D03E16DA84CA2A /* Frameworks */ = {
@@ -185,6 +217,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A7E8C431CBFFC7400EFE574 /* LaunchScreen.storyboard in Resources */,
+				AD97CA622089BBBB0004D876 /* ARassets.scnassets in Resources */,
 				1A7E8C401CBFFC7400EFE574 /* Assets.xcassets in Resources */,
 				1A7E8C3E1CBFFC7400EFE574 /* Main.storyboard in Resources */,
 			);
@@ -266,10 +299,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD56093B208BC97C00DF9C37 /* SCNNode+Extensions.swift in Sources */,
 				1A7E8C5B1CC0009500EFE574 /* Queue.swift in Sources */,
+				AD560938208BC97C00DF9C37 /* SCNVector3+Extensions.swift in Sources */,
+				AD35AF752085282A00BEDEED /* yoloObject.swift in Sources */,
+				AD56093D208BC9D300DF9C37 /* Utilities.swift in Sources */,
 				93DE98311FDEB62A0048600F /* IPChecker.m in Sources */,
 				AD35AF722083D51200BEDEED /* CloudChaserClient.swift in Sources */,
 				1A7E8C391CBFFC7400EFE574 /* AppDelegate.swift in Sources */,
+				AD56093A208BC97C00DF9C37 /* SCNMatrix4+Extensions.swift in Sources */,
+				AD560939208BC97C00DF9C37 /* SCNVector4+Extensions.swift in Sources */,
+				AD560933208BC94D00DF9C37 /* Box.swift in Sources */,
 				1A7E8C541CBFFF9A00EFE574 /* CameraViewController.swift in Sources */,
 				1A7E8C561CC0005800EFE574 /* StreamingSession.swift in Sources */,
 			);

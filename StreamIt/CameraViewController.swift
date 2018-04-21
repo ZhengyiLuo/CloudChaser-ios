@@ -14,7 +14,7 @@ import ARKit
 
 
 class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
-
+    
     @IBOutlet weak var cameraView: UIView!
     @IBOutlet weak var plusLabel: UILabel!
     @IBOutlet weak var minusLabel: UILabel!
@@ -22,6 +22,7 @@ class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
     @IBOutlet weak var ledImage: UIImageView!
     @IBOutlet weak var informationLabel: UILabel!
     @IBOutlet weak var arView: ARSCNView!
+    @IBOutlet weak var currentSceneLogLabel: UILabel!
     
     let streamPort = 8080
     let cloudChaserServerUrl = "http://65.49.81.103:8080/ws"
@@ -35,13 +36,31 @@ class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
     var previousOrientation = UIDeviceOrientation.unknown
     var ipIsDisplayed = false
     var ipAddress = ""
+    var count = 0
+    static var imagOrientation: UIImageOrientation = UIImageOrientation.up
     
-
+    
+    
     let serverQueue = DispatchQueue(label: "ServerQueue", attributes: [])
     let clientQueue = DispatchQueue(label: "ClientQueue", attributes: .concurrent)
     let socketWriteQueue = DispatchQueue(label: "SocketWriteQueue", attributes: .concurrent)
     var chaseClient: CloudChaserClient!
-
+    
+    var didRotate: (Notification) -> Void = { notification in
+        switch UIDevice.current.orientation {
+        case .landscapeRight:
+            imagOrientation = UIImageOrientation.down
+        case .landscapeLeft:
+            imagOrientation = UIImageOrientation.up
+        case .portrait :
+            imagOrientation = UIImageOrientation.right
+        case .portraitUpsideDown:
+            imagOrientation = UIImageOrientation.left
+        default:
+            print("other")
+        }
+    }
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,33 +77,19 @@ class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
                 determine whether to show UI for launching AR experiences.
             """) // For details, see https://developer.apple.com/documentation/arkit
         }
-
+        
         // Intialize Socket
         print("Client's IP \(String(describing: self.ip))")
         informationLabel.text = self.ip! + ":" + String(streamPort)
         self.serverSocket = GCDAsyncSocket(delegate: self, delegateQueue: self.serverQueue, socketQueue: self.socketWriteQueue)
-
+        
         do {
             try self.serverSocket?.accept(onInterface: self.ip, port: UInt16(streamPort))
         } catch {
             print("Could not start listening on port 8080 (\(error))")
         }
+    
         
-        // Do any additional setup after loading the view.
-//        self.captureSession.sessionPreset = .medium
-//        let devices = AVCaptureDevice.devices()
-
-//        for device in devices {
-//            if device.hasMediaType(.video) {
-//                self.captureDevice = device
-//                if captureDevice != nil {
-//                    print("Capture device found")
-//                    beginSession()
-//                    break
-//                }
-//            }
-//        }
-
         if let ip = self.ip {
             ipAddress = "http://\(ip):8080"
         } else {
@@ -102,7 +107,7 @@ class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
         }
         
         arView.session.run(configuration)
-
+        
         // Set a delegate to track the number of plane anchors for providing UI feedback.
         arView.session.delegate = self
         
@@ -113,45 +118,94 @@ class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
         // Show debug UI to view performance metrics (e.g. frames per second).
         arView.showsStatistics = true
         
+        NotificationCenter.default.addObserver(forName: .UIDeviceOrientationDidChange,
+                                               object: nil,
+                                               queue: .main,
+                                               using: didRotate)
+        //        beginSession()
+        let box = SCNBox(width: 0.2, height: 0.2, length: 0.2, chamferRadius: 0)
+        let boxNode = SCNNode(geometry: box)
+        boxNode.position = SCNVector3(0,0,-0.5)
+        arView.scene.rootNode.addChildNode(boxNode)
         
-//        beginSession()
-//        self.cameraView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(CameraViewController.tapOnCameraView)))
     }
-
     
+ 
+    func resizeImage(image: UIImage) -> UIImage {
+        
+//
+//       print(UIDevice.current.orientation == UIDevice.)
+        
+        
+        if image.size.height >= 1024 && image.size.width >= 1024 {
+            
+            UIGraphicsBeginImageContext(CGSize(width:480, height:270))
+            image.draw(in: CGRect(x:0, y:0, width:480, height:270))
+            
+            let newImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            
+            return newImage!
+        }
+        return image
+    }
     
     // MARK: - ARSessionDelegate
     
     func session(_ session: ARSession,didUpdate frame: ARFrame) {
-        let currentImg = frame.capturedImage
         
-//        let orientation: UIInterfaceOrientation = UIApplication.shared.statusBarOrientation
-//        let vpSize = CGSize(width:1280, height:1080)
-//        print(frame.displayTransform(for: orientation, viewportSize: vpSize))
+        if count == 3{
+            DispatchQueue.global(qos: .background).async {
+                let currentImg = frame.capturedImage
+                let sourceImage = CIImage(cvImageBuffer: currentImg, options: nil)
+                guard let tempImage = self.context.createCGImage(sourceImage, from: sourceImage.extent) else { return }
+                let uiimage = UIImage(cgImage: tempImage, scale: 0.5, orientation: CameraViewController.imagOrientation)
+                
+//                let imageToSend = UIImageJPEGRepresentation(self.resizeImage(image: uiimage), 0)
+                                                let imageToSend = UIImageJPEGRepresentation(uiimage, 0)
+                
+                for (key, client) in self.clients {
+                    if client.connected {
+                        client.dataToSend = (imageToSend as NSData?)?.copy() as? Data
+                    } else {
+                        self.clients.removeValue(forKey: key)
+                    }
+                }
+            }
+            count = 0
+        } else {
+            count += 1
+        }
         
         
-        let sourceImage = CIImage(cvImageBuffer: currentImg, options: nil)
-        guard let tempImage = self.context.createCGImage(sourceImage, from: sourceImage.extent) else { return }
-        let image = UIImage(cgImage: tempImage)
-        let imageToSend = UIImageJPEGRepresentation(image, 0)
         
-        for (key, client) in self.clients {
-            if client.connected {
-                client.dataToSend = (imageToSend as NSData?)?.copy() as? Data
-            } else {
-                self.clients.removeValue(forKey: key)
+        // Indciation Client status
+        //        if self.clients.isEmpty {
+        //            DispatchQueue.main.async(execute: {
+        //                self.ledImage.image = UIImage(named: "led_gray")
+        //            })
+        //        }
+        
+        // Update curr Objects label
+        if let cClient = chaseClient {
+            if let objs = cClient.currOjbectsArray{
+
+                var currObj = ""
+                for obj in objs{
+                    currObj.append(obj.objectName!)
+                    currObj.append("\n")
+                }
+                currentSceneLogLabel.text = currObj
             }
         }
-        
-        if self.clients.isEmpty {
-            DispatchQueue.main.async(execute: {
-                self.ledImage.image = UIImage(named: "led_gray")
-            })
+        for node in arView.scene.rootNode.childNodes{
+//            node.position = SCNVector3Make(value, , selectedObject.position.z)
         }
         
-        
     }
-
+    
+    
+    
     
     
     @IBAction func btn_Connect(_ sender: UIButton) {
@@ -162,20 +216,10 @@ class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    // ******************************************need clean up **********************
+    // ******************************************need clean up ****************************//
     // MARK: - Actions
     @objc fileprivate func tapOnCameraView() {
-
+        
         UIView.animate(withDuration: 1, animations: { [unowned self] in
             if self.ipIsDisplayed {
                 self.informationLabel.alpha = 0
@@ -183,11 +227,11 @@ class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
                 self.informationLabel.alpha = 1
                 self.informationLabel.text = self.ipAddress
             }
-
+            
             self.ipIsDisplayed = !self.ipIsDisplayed
         })
     }
-
+    
     @IBAction fileprivate func zoomChanged(_ sender: UISlider, forEvent event: UIEvent) {
         do {
             try self.captureDevice?.lockForConfiguration()
@@ -197,7 +241,7 @@ class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
             print("Could not lock configuration for capture device (\(error))")
         }
     }
-
+    
     // Begain Streaming Session
     fileprivate func beginSession() {
         do {
@@ -205,30 +249,30 @@ class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
                 print("Could not find a capture device")
                 return
             }
-
+            
             try captureDevice.lockForConfiguration()
             captureDevice.focusMode = .continuousAutoFocus
             captureDevice.unlockForConfiguration()
-
+            
             let maxZoom = captureDevice.activeFormat.videoMaxZoomFactor
             self.zoomSlider.maximumValue = Float(maxZoom) / 2
-
+            
             try self.captureSession.addInput(AVCaptureDeviceInput(device: captureDevice))
             self.previewLayer = AVCaptureVideoPreviewLayer(session: self.captureSession)
             guard let previewLayer = self.previewLayer else {
                 print("Could not create a preview layer for session")
                 return
             }
-
+            
             let bounds = self.view.bounds
-
+            
             previewLayer.bounds = CGRect(origin: CGPoint.zero, size: CGSize(width: bounds.width, height: bounds.height))
             previewLayer.videoGravity = .resize
             previewLayer.position = CGPoint(x: bounds.midX, y: bounds.midY)
             videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "AVSessionQueue", attributes: []))
             self.captureSession.addOutput(videoOutput)
             self.cameraView.layer.addSublayer(previewLayer)
-
+            
             //self.previewLayer?.frame = self.view.layer.frame
             self.captureSession.startRunning()
             print("Streaming settings:    ")
@@ -237,9 +281,9 @@ class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
             print("Could not begin a capture session (\(error))")
         }
     }
-
+    
     let context = CIContext(options: nil)
-
+    
     fileprivate func rotateLabels(_ angle: CGFloat) {
         DispatchQueue.main.async(execute: {
             UIView.animate(withDuration: 0.5, animations: {
@@ -250,30 +294,30 @@ class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
             })
         })
     }
-
+    
     fileprivate func switchLabels() {
         DispatchQueue.main.async(execute: {
             UIView.animate(withDuration: 0.5, animations: {
                 let c1 = self.minusLabel.center
                 let c2 = self.plusLabel.center
-
+                
                 let dx = c2.x - c1.x
                 let dy = c2.y - c1.y
-
+                
                 self.minusLabel.transform = CGAffineTransform.identity.translatedBy(x: dx, y: dy)
                 self.plusLabel.transform = CGAffineTransform.identity.translatedBy(x: -dx, y: -dy)
-
+                
                 self.minusLabel.transform = self.minusLabel.transform.rotated(by: CGFloat(-1/2 * Double.pi))
                 self.plusLabel.transform = self.plusLabel.transform.rotated(by: CGFloat(-1/2 * Double.pi))
-
+                
                 self.zoomSlider.transform = CGAffineTransform.identity.rotated(by: CGFloat(Double.pi))
-
+                
                 self.informationLabel.transform = CGAffineTransform.identity.rotated(by: CGFloat(-1/2 * Double.pi))
-
+                
             })
         })
     }
-
+    
     fileprivate func updateOrientation() {
         let currentOrientation = UIDevice.current.orientation
         if currentOrientation != self.previousOrientation {
@@ -294,7 +338,7 @@ class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
                 self.videoOutput.connection(with: .video)?.videoOrientation = .portrait
                 self.rotateLabels(0)
             }
-
+            
             self.previousOrientation = currentOrientation
         }
     }
@@ -303,17 +347,17 @@ class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
 // MARK: - AVCaptureVideoDataOutputSampleBufferDelegate
 
 extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
-
+    
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         self.updateOrientation()
-
+        
         if !self.clients.isEmpty {
             guard let capture: CVImageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
             let sourceImage = CIImage(cvImageBuffer: capture, options: nil)
             guard let tempImage = self.context.createCGImage(sourceImage, from: sourceImage.extent) else { return }
             let image = UIImage(cgImage: tempImage)
             let imageToSend = UIImageJPEGRepresentation(image, 0)
-
+            
             for (key, client) in self.clients {
                 if client.connected {
                     client.dataToSend = (imageToSend as NSData?)?.copy() as? Data
@@ -321,7 +365,7 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
                     self.clients.removeValue(forKey: key)
                 }
             }
-
+            
             if self.clients.isEmpty {
                 DispatchQueue.main.async(execute: {
                     self.ledImage.image = UIImage(named: "led_gray")
@@ -334,15 +378,15 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
 // MARK: - GCDAsyncSocketDelegate
 
 extension CameraViewController: GCDAsyncSocketDelegate {
-
+    
     func socket(_ sock: GCDAsyncSocket, didAcceptNewSocket newSocket: GCDAsyncSocket) {
         print("New client from IP \(newSocket.connectedHost ?? "unknown")")
         guard let clientId = newSocket.connectedAddress?.hashValue else { return }
-
+        
         let newClient = StreamingSession(id: clientId, client: newSocket, queue: self.clientQueue)
         self.clients[clientId] = newClient
         newClient.startStreaming()
-
+        
         DispatchQueue.main.async(execute: {
             self.ledImage.image = UIImage(named: "led_red")
         })

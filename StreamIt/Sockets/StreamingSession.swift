@@ -22,7 +22,7 @@ class StreamingSession {
     var dataToSend: Data? {
         didSet {
             guard let dataToSend = self.dataToSend else { return }
-
+            var data = NSData(data: dataToSend)
             self.dataStack.enqueue(dataToSend)
         }
     }

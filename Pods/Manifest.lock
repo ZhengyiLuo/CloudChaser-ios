@@ -1,12 +1,15 @@
 PODS:
-  - CocoaAsyncSocket (7.6.2)
+  - CocoaAsyncSocket (7.6.3)
+  - Starscream (3.0.5)
 
 DEPENDENCIES:
   - CocoaAsyncSocket
+  - Starscream (~> 3.0.2)
 
 SPEC CHECKSUMS:
-  CocoaAsyncSocket: 3541e024f48c54b251638ef72d51dd42808de932
+  CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987
+  Starscream: faf918b2f2eff7d5dd21180646bf015a669673bd
 
-PODFILE CHECKSUM: 7af4dcf5cb0e676e4fb2fd715a586b951f7240b1
+PODFILE CHECKSUM: 8992255bf8be50a33dbedd710aba513aa563e43f
 
 COCOAPODS: 1.4.0
