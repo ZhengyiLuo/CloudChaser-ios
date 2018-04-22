@@ -13,7 +13,7 @@ class CloudChaserClient: WebSocketDelegate{
     
     var chaseClientSocket :WebSocketClient!
     var phoneUrl: String!
-    var currOjbectsArray: [YoloObject]!
+    var currOjbectsArray: [detectedObject]!
     
     
     init(serverUrl: String, phoneUrl: String) {
@@ -49,7 +49,7 @@ class CloudChaserClient: WebSocketDelegate{
         if currOjbectsArray.count == 10{
             currOjbectsArray.removeAll()
         }
-        guard var yoloObj = YoloObject(stringArray: strArray) else {return}
+        guard var yoloObj = detectedObject(stringArray: strArray) else {return}
         currOjbectsArray.append(yoloObj)
         
         
@@ -60,6 +60,7 @@ class CloudChaserClient: WebSocketDelegate{
     func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
         print("got some data: \(data.count)")
     }
+    
     
     
     

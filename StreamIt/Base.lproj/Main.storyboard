@@ -21,6 +21,10 @@
                         <subviews>
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KuE-Ql-5Pk">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="aoo-Qg-EGF" appends="YES" id="blS-ek-bLb"/>
+                                </connections>
                             </arscnView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="led_gray" translatesAutoresizingMaskIntoConstraints="NO" id="CyK-2Y-rYu">
                                 <rect key="frame" x="319" y="84" width="40" height="40"/>
@@ -56,13 +60,14 @@
                                     <constraint firstAttribute="trailing" secondItem="9Ec-Rx-hUK" secondAttribute="trailing" id="qPW-8R-IL1"/>
                                 </constraints>
                             </stackView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dVi-SL-WDl">
-                                <rect key="frame" x="16" y="84" width="295" height="184"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="46A-zf-MPw">
+                                <rect key="frame" x="0.0" y="732" width="375" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="1" green="0.0" blue="0.11588262446956499" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.12720070422535212" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.73708711139896366" green="0.73708711139896366" blue="0.73708711139896366" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -82,12 +87,13 @@
                     </view>
                     <connections>
                         <outlet property="arView" destination="KuE-Ql-5Pk" id="jG6-Ca-xWH"/>
-                        <outlet property="currentSceneLogLabel" destination="dVi-SL-WDl" id="Bl1-CD-HRo"/>
+                        <outlet property="debugTextView" destination="46A-zf-MPw" id="dSf-B8-0HB"/>
                         <outlet property="informationLabel" destination="9Ec-Rx-hUK" id="6tM-0P-Fhr"/>
                         <outlet property="ledImage" destination="CyK-2Y-rYu" id="rWa-iS-f0K"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="aoo-Qg-EGF"/>
             </objects>
             <point key="canvasLocation" x="212" y="315.51724137931035"/>
         </scene>

@@ -23,6 +23,9 @@
 		AD56093A208BC97C00DF9C37 /* SCNMatrix4+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD560936208BC97B00DF9C37 /* SCNMatrix4+Extensions.swift */; };
 		AD56093B208BC97C00DF9C37 /* SCNNode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD560937208BC97C00DF9C37 /* SCNNode+Extensions.swift */; };
 		AD56093D208BC9D300DF9C37 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD56093C208BC9D300DF9C37 /* Utilities.swift */; };
+		AD56093F208CDF6100DF9C37 /* Inceptionv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = AD56093E208CDF6100DF9C37 /* Inceptionv3.mlmodel */; };
+		AD560942208CE23A00DF9C37 /* inceptionDetect.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD560941208CE23A00DF9C37 /* inceptionDetect.swift */; };
+		AD560944208CE6C200DF9C37 /* streamingServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD560943208CE6C200DF9C37 /* streamingServer.swift */; };
 		AD97CA622089BBBB0004D876 /* ARassets.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = AD97CA612089BBBB0004D876 /* ARassets.scnassets */; };
 		D7648D95123244066480132D /* Pods_StreamIt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE17C80916AC28319CB7FD0F /* Pods_StreamIt.framework */; };
 /* End PBXBuildFile section */
@@ -48,6 +51,9 @@
 		AD560936208BC97B00DF9C37 /* SCNMatrix4+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNMatrix4+Extensions.swift"; sourceTree = "<group>"; };
 		AD560937208BC97C00DF9C37 /* SCNNode+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNNode+Extensions.swift"; sourceTree = "<group>"; };
 		AD56093C208BC9D300DF9C37 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		AD56093E208CDF6100DF9C37 /* Inceptionv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Inceptionv3.mlmodel; sourceTree = "<group>"; };
+		AD560941208CE23A00DF9C37 /* inceptionDetect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = inceptionDetect.swift; sourceTree = "<group>"; };
+		AD560943208CE6C200DF9C37 /* streamingServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = streamingServer.swift; sourceTree = "<group>"; };
 		AD97CA612089BBBB0004D876 /* ARassets.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = ARassets.scnassets; sourceTree = "<group>"; };
 		E0B436531F2AD1B9C355A31E /* Pods-StreamIt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StreamIt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StreamIt/Pods-StreamIt.debug.xcconfig"; sourceTree = "<group>"; };
 		EE17C80916AC28319CB7FD0F /* Pods_StreamIt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StreamIt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -87,6 +93,7 @@
 		1A7E8C371CBFFC7400EFE574 /* StreamIt */ = {
 			isa = PBXGroup;
 			children = (
+				AD560940208CE1D300DF9C37 /* CoreML */,
 				AD35AF73208527FE00BEDEED /* ARObjects */,
 				AD35AF6E2083D4C900BEDEED /* Sockets */,
 				1A7E8C381CBFFC7400EFE574 /* AppDelegate.swift */,
@@ -117,6 +124,7 @@
 			children = (
 				1A7E8C551CC0005800EFE574 /* StreamingSession.swift */,
 				AD35AF712083D51100BEDEED /* CloudChaserClient.swift */,
+				AD560943208CE6C200DF9C37 /* streamingServer.swift */,
 			);
 			path = Sockets;
 			sourceTree = "<group>";
@@ -133,6 +141,15 @@
 				AD35AF742085282A00BEDEED /* yoloObject.swift */,
 			);
 			path = ARObjects;
+			sourceTree = "<group>";
+		};
+		AD560940208CE1D300DF9C37 /* CoreML */ = {
+			isa = PBXGroup;
+			children = (
+				AD56093E208CDF6100DF9C37 /* Inceptionv3.mlmodel */,
+				AD560941208CE23A00DF9C37 /* inceptionDetect.swift */,
+			);
+			path = CoreML;
 			sourceTree = "<group>";
 		};
 		C719A516A1D03E16DA84CA2A /* Frameworks */ = {
@@ -300,18 +317,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD56093B208BC97C00DF9C37 /* SCNNode+Extensions.swift in Sources */,
+				AD560944208CE6C200DF9C37 /* streamingServer.swift in Sources */,
 				1A7E8C5B1CC0009500EFE574 /* Queue.swift in Sources */,
 				AD560938208BC97C00DF9C37 /* SCNVector3+Extensions.swift in Sources */,
 				AD35AF752085282A00BEDEED /* yoloObject.swift in Sources */,
 				AD56093D208BC9D300DF9C37 /* Utilities.swift in Sources */,
 				93DE98311FDEB62A0048600F /* IPChecker.m in Sources */,
 				AD35AF722083D51200BEDEED /* CloudChaserClient.swift in Sources */,
+				AD560942208CE23A00DF9C37 /* inceptionDetect.swift in Sources */,
 				1A7E8C391CBFFC7400EFE574 /* AppDelegate.swift in Sources */,
 				AD56093A208BC97C00DF9C37 /* SCNMatrix4+Extensions.swift in Sources */,
 				AD560939208BC97C00DF9C37 /* SCNVector4+Extensions.swift in Sources */,
 				AD560933208BC94D00DF9C37 /* Box.swift in Sources */,
 				1A7E8C541CBFFF9A00EFE574 /* CameraViewController.swift in Sources */,
 				1A7E8C561CC0005800EFE574 /* StreamingSession.swift in Sources */,
+				AD56093F208CDF6100DF9C37 /* Inceptionv3.mlmodel in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
