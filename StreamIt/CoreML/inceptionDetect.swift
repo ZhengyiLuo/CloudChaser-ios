@@ -9,11 +9,12 @@
 import Foundation
 import Vision
 
-class inceptionDetect{
+class InceptionDetect{
     // COREML
     var visionRequests = [VNRequest]()
     let dispatchQueueML = DispatchQueue(label: "com.hw.dispatchqueueml") // A Serial Queue
     var mainView: CameraViewController!
+    var latestPrediction : String = "…" // a variable containing the latest CoreML prediction
     
     init(view: CameraViewController) {
         mainView = view
@@ -41,8 +42,12 @@ class inceptionDetect{
             // 1. Run Update.
             self.updateCoreML()
             
-            // 2. Loop this function.
-            self.loopCoreMLUpdate()
+            if self.mainView.clientStatus == .noClient{
+                // 2. Loop this function.
+                self.loopCoreMLUpdate()
+                
+            }
+            
         }
         
     }
@@ -67,8 +72,8 @@ class inceptionDetect{
         
         DispatchQueue.main.async {
             // Print Classifications
-            print(classifications)
-            print("--")
+//            print(classifications)
+//            print("--")
             
             // Display Debug Text on screen
             var debugText:String = ""
@@ -79,7 +84,7 @@ class inceptionDetect{
             var objectName:String = "…"
             objectName = classifications.components(separatedBy: "-")[0]
             objectName = objectName.components(separatedBy: ",")[0]
-            self.mainView.latestPrediction = objectName
+            self.latestPrediction = objectName
             
         }
     }

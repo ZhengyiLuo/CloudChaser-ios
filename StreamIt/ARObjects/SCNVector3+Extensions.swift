@@ -105,6 +105,17 @@ extension SCNVector3 {
 		case .z: z = value
 		}
 	}
+    
+    func distance(_ vect: SCNVector3)-> Float{
+            return (self - vect).length
+    }
+    
+    func angle(_ v: SCNVector3) -> Float{
+        let dotpro = self.dot(v)
+        let norm = self.length * v.length
+//        print(dotpro/norm, acos(dotpro/norm))
+        return acos(dotpro/norm)
+    }
 }
 
 //MARK: - Vector arithmetic

@@ -8,26 +8,41 @@
 
 import Foundation
 import Starscream
+import SceneKit
 
 class CloudChaserClient: WebSocketDelegate{
     
     var chaseClientSocket :WebSocketClient!
     var phoneUrl: String!
-    var currOjbectsArray: [detectedObject]!
+    var currOjbectsDict: [String: [DetectedObject]]!
+    var mainView: CameraViewController!
+    //812 * 375
+    //1920 * 1080
+    let rationX: Double = 812.0/1920.0
+    let rationY: Double = 375.0/1080.0
+    var objectCache: SwiftlyLRU<String, SCNVector3>?
+    let CACHE_CAPACITY = 50
     
-    
-    init(serverUrl: String, phoneUrl: String) {
+    init(serverUrl: String, phoneUrl: String, view: CameraViewController) {
         chaseClientSocket = WebSocket(url: URL(string: serverUrl)!)
         chaseClientSocket.delegate = self
         self.phoneUrl = phoneUrl
-        currOjbectsArray = []
+        currOjbectsDict = [:]
+        self.mainView = view
+        self.objectCache = SwiftlyLRU(capacity: CACHE_CAPACITY)
     }
     
     
-    // Check if connection is valid
-    func connect() -> Bool{
+    func connect(){
         chaseClientSocket.connect()
-        return true
+    }
+    
+    func isConnected() -> Bool{
+        return chaseClientSocket.isConnected
+    }
+    
+    func disconnect(){
+        chaseClientSocket.disconnect()
     }
     
     func websocketDidConnect(socket: WebSocketClient) {
@@ -45,13 +60,38 @@ class CloudChaserClient: WebSocketDelegate{
     func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
         //        print("got some text: \(text)")
         let strArray = text.split(separator: ",")
-        // Need a better selecting shceme for objects that we are adding to the scene
-        if currOjbectsArray.count == 10{
-            currOjbectsArray.removeAll()
-        }
-        guard var yoloObj = detectedObject(stringArray: strArray) else {return}
-        currOjbectsArray.append(yoloObj)
         
+        guard var yoloObj = DetectedObject(stringArray: strArray) else {return}
+        
+        let y: CGFloat = CGFloat(rationY) * CGFloat((yoloObj.top! + yoloObj.bottom!))/2
+        let x: CGFloat = CGFloat(rationX) * CGFloat((yoloObj.left! + yoloObj.right!))/2
+        guard var objNodePos = mainView.hitWorldPoint(x: y, y: x) else {return}
+        yoloObj.setPosition(objNodePos)
+        
+        if var objArray = currOjbectsDict[yoloObj.objectName!] {
+            // now val is not nil and the Optional has been unwrapped, so use it
+            var addObject = false
+            for object in objArray{
+                
+                if let coord = object.position(){
+//                    print(coord.distance(objNodePos))
+                    var distance = coord.distance(objNodePos)
+                    var angle = coord.angle(objNodePos)
+                    if distance > 1.5 && angle > 0.5{
+                            addObject = true
+                    } else if distance > 0.5 && angle > 0.2 {
+                        object.setPosition(objNodePos)
+                    }
+                }
+            }
+            if addObject{
+                objArray.append(yoloObj)
+                mainView.arView.scene.rootNode.addChildNode(yoloObj.label)
+            }
+        } else {
+            currOjbectsDict[yoloObj.objectName!] = [yoloObj]
+            mainView.arView.scene.rootNode.addChildNode(yoloObj.label)
+        }
         
         
         

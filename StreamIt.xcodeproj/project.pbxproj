@@ -15,8 +15,9 @@
 		1A7E8C561CC0005800EFE574 /* StreamingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E8C551CC0005800EFE574 /* StreamingSession.swift */; };
 		1A7E8C5B1CC0009500EFE574 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E8C571CC0009500EFE574 /* Queue.swift */; };
 		93DE98311FDEB62A0048600F /* IPChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DE98301FDEB62A0048600F /* IPChecker.m */; };
+		AD0B8DFF208E2F1F00CB59FC /* SwiftLRU.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0B8DFE208E2F1F00CB59FC /* SwiftLRU.swift */; };
 		AD35AF722083D51200BEDEED /* CloudChaserClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD35AF712083D51100BEDEED /* CloudChaserClient.swift */; };
-		AD35AF752085282A00BEDEED /* yoloObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD35AF742085282A00BEDEED /* yoloObject.swift */; };
+		AD35AF752085282A00BEDEED /* YoloObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD35AF742085282A00BEDEED /* YoloObject.swift */; };
 		AD560933208BC94D00DF9C37 /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD560932208BC94C00DF9C37 /* Box.swift */; };
 		AD560938208BC97C00DF9C37 /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD560934208BC97B00DF9C37 /* SCNVector3+Extensions.swift */; };
 		AD560939208BC97C00DF9C37 /* SCNVector4+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD560935208BC97B00DF9C37 /* SCNVector4+Extensions.swift */; };
@@ -24,8 +25,12 @@
 		AD56093B208BC97C00DF9C37 /* SCNNode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD560937208BC97C00DF9C37 /* SCNNode+Extensions.swift */; };
 		AD56093D208BC9D300DF9C37 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD56093C208BC9D300DF9C37 /* Utilities.swift */; };
 		AD56093F208CDF6100DF9C37 /* Inceptionv3.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = AD56093E208CDF6100DF9C37 /* Inceptionv3.mlmodel */; };
-		AD560942208CE23A00DF9C37 /* inceptionDetect.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD560941208CE23A00DF9C37 /* inceptionDetect.swift */; };
-		AD560944208CE6C200DF9C37 /* streamingServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD560943208CE6C200DF9C37 /* streamingServer.swift */; };
+		AD560942208CE23A00DF9C37 /* InceptionDetect.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD560941208CE23A00DF9C37 /* InceptionDetect.swift */; };
+		AD560946208CEBAE00DF9C37 /* CameraViewController+StreamingServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD560945208CEBAE00DF9C37 /* CameraViewController+StreamingServer.swift */; };
+		AD56094A208CF50C00DF9C37 /* VirtualObjectSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD560949208CF50C00DF9C37 /* VirtualObjectSelection.swift */; };
+		AD56094C208CF74700DF9C37 /* VirtualObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD56094B208CF74600DF9C37 /* VirtualObject.swift */; };
+		AD560950208D18FC00DF9C37 /* CameraViewController+Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD56094F208D18FC00DF9C37 /* CameraViewController+Action.swift */; };
+		AD8F75FB208D1DDE00FF3B8A /* Models.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = AD560953208D1B5E00DF9C37 /* Models.scnassets */; };
 		AD97CA622089BBBB0004D876 /* ARassets.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = AD97CA612089BBBB0004D876 /* ARassets.scnassets */; };
 		D7648D95123244066480132D /* Pods_StreamIt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE17C80916AC28319CB7FD0F /* Pods_StreamIt.framework */; };
 /* End PBXBuildFile section */
@@ -43,17 +48,22 @@
 		1A7E8C571CC0009500EFE574 /* Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		93DE982F1FDEB62A0048600F /* IPChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPChecker.h; sourceTree = "<group>"; };
 		93DE98301FDEB62A0048600F /* IPChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPChecker.m; sourceTree = "<group>"; };
+		AD0B8DFE208E2F1F00CB59FC /* SwiftLRU.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftLRU.swift; sourceTree = "<group>"; };
 		AD35AF712083D51100BEDEED /* CloudChaserClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudChaserClient.swift; sourceTree = "<group>"; };
-		AD35AF742085282A00BEDEED /* yoloObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = yoloObject.swift; sourceTree = "<group>"; };
+		AD35AF742085282A00BEDEED /* YoloObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoloObject.swift; sourceTree = "<group>"; };
 		AD560932208BC94C00DF9C37 /* Box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
 		AD560934208BC97B00DF9C37 /* SCNVector3+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Extensions.swift"; sourceTree = "<group>"; };
 		AD560935208BC97B00DF9C37 /* SCNVector4+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNVector4+Extensions.swift"; sourceTree = "<group>"; };
 		AD560936208BC97B00DF9C37 /* SCNMatrix4+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNMatrix4+Extensions.swift"; sourceTree = "<group>"; };
 		AD560937208BC97C00DF9C37 /* SCNNode+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNNode+Extensions.swift"; sourceTree = "<group>"; };
-		AD56093C208BC9D300DF9C37 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		AD56093C208BC9D300DF9C37 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utilities.swift; path = ../ARObjects/Utilities.swift; sourceTree = "<group>"; };
 		AD56093E208CDF6100DF9C37 /* Inceptionv3.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = Inceptionv3.mlmodel; sourceTree = "<group>"; };
-		AD560941208CE23A00DF9C37 /* inceptionDetect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = inceptionDetect.swift; sourceTree = "<group>"; };
-		AD560943208CE6C200DF9C37 /* streamingServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = streamingServer.swift; sourceTree = "<group>"; };
+		AD560941208CE23A00DF9C37 /* InceptionDetect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InceptionDetect.swift; sourceTree = "<group>"; };
+		AD560945208CEBAE00DF9C37 /* CameraViewController+StreamingServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+StreamingServer.swift"; sourceTree = "<group>"; };
+		AD560949208CF50C00DF9C37 /* VirtualObjectSelection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VirtualObjectSelection.swift; sourceTree = "<group>"; };
+		AD56094B208CF74600DF9C37 /* VirtualObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VirtualObject.swift; sourceTree = "<group>"; };
+		AD56094F208D18FC00DF9C37 /* CameraViewController+Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+Action.swift"; sourceTree = "<group>"; };
+		AD560953208D1B5E00DF9C37 /* Models.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = Models.scnassets; sourceTree = "<group>"; };
 		AD97CA612089BBBB0004D876 /* ARassets.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = ARassets.scnassets; sourceTree = "<group>"; };
 		E0B436531F2AD1B9C355A31E /* Pods-StreamIt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StreamIt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StreamIt/Pods-StreamIt.debug.xcconfig"; sourceTree = "<group>"; };
 		EE17C80916AC28319CB7FD0F /* Pods_StreamIt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StreamIt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,15 +103,13 @@
 		1A7E8C371CBFFC7400EFE574 /* StreamIt */ = {
 			isa = PBXGroup;
 			children = (
+				AD560954208D1B9C00DF9C37 /* Resources */,
+				AD560948208CF4F400DF9C37 /* Utilities */,
+				AD560947208CF4DB00DF9C37 /* ViewControllers */,
 				AD560940208CE1D300DF9C37 /* CoreML */,
 				AD35AF73208527FE00BEDEED /* ARObjects */,
 				AD35AF6E2083D4C900BEDEED /* Sockets */,
-				1A7E8C381CBFFC7400EFE574 /* AppDelegate.swift */,
-				1A7E8C531CBFFF9A00EFE574 /* CameraViewController.swift */,
-				1A7E8C571CC0009500EFE574 /* Queue.swift */,
 				1A7E8C3C1CBFFC7400EFE574 /* Main.storyboard */,
-				1A7E8C3F1CBFFC7400EFE574 /* Assets.xcassets */,
-				AD97CA612089BBBB0004D876 /* ARassets.scnassets */,
 				1A7E8C411CBFFC7400EFE574 /* LaunchScreen.storyboard */,
 				1A7E8C441CBFFC7400EFE574 /* Info.plist */,
 				93DE982E1FDEB62A0048600F /* IPChecker */,
@@ -124,7 +132,6 @@
 			children = (
 				1A7E8C551CC0005800EFE574 /* StreamingSession.swift */,
 				AD35AF712083D51100BEDEED /* CloudChaserClient.swift */,
-				AD560943208CE6C200DF9C37 /* streamingServer.swift */,
 			);
 			path = Sockets;
 			sourceTree = "<group>";
@@ -132,13 +139,13 @@
 		AD35AF73208527FE00BEDEED /* ARObjects */ = {
 			isa = PBXGroup;
 			children = (
-				AD56093C208BC9D300DF9C37 /* Utilities.swift */,
+				AD56094B208CF74600DF9C37 /* VirtualObject.swift */,
 				AD560936208BC97B00DF9C37 /* SCNMatrix4+Extensions.swift */,
 				AD560937208BC97C00DF9C37 /* SCNNode+Extensions.swift */,
 				AD560934208BC97B00DF9C37 /* SCNVector3+Extensions.swift */,
 				AD560935208BC97B00DF9C37 /* SCNVector4+Extensions.swift */,
 				AD560932208BC94C00DF9C37 /* Box.swift */,
-				AD35AF742085282A00BEDEED /* yoloObject.swift */,
+				AD35AF742085282A00BEDEED /* YoloObject.swift */,
 			);
 			path = ARObjects;
 			sourceTree = "<group>";
@@ -147,9 +154,41 @@
 			isa = PBXGroup;
 			children = (
 				AD56093E208CDF6100DF9C37 /* Inceptionv3.mlmodel */,
-				AD560941208CE23A00DF9C37 /* inceptionDetect.swift */,
+				AD560941208CE23A00DF9C37 /* InceptionDetect.swift */,
 			);
 			path = CoreML;
+			sourceTree = "<group>";
+		};
+		AD560947208CF4DB00DF9C37 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				AD560949208CF50C00DF9C37 /* VirtualObjectSelection.swift */,
+				1A7E8C531CBFFF9A00EFE574 /* CameraViewController.swift */,
+				AD560945208CEBAE00DF9C37 /* CameraViewController+StreamingServer.swift */,
+				AD56094F208D18FC00DF9C37 /* CameraViewController+Action.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		AD560948208CF4F400DF9C37 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				AD56093C208BC9D300DF9C37 /* Utilities.swift */,
+				1A7E8C381CBFFC7400EFE574 /* AppDelegate.swift */,
+				1A7E8C571CC0009500EFE574 /* Queue.swift */,
+				AD0B8DFE208E2F1F00CB59FC /* SwiftLRU.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		AD560954208D1B9C00DF9C37 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1A7E8C3F1CBFFC7400EFE574 /* Assets.xcassets */,
+				AD560953208D1B5E00DF9C37 /* Models.scnassets */,
+				AD97CA612089BBBB0004D876 /* ARassets.scnassets */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		C719A516A1D03E16DA84CA2A /* Frameworks */ = {
@@ -233,6 +272,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD8F75FB208D1DDE00FF3B8A /* Models.scnassets in Resources */,
 				1A7E8C431CBFFC7400EFE574 /* LaunchScreen.storyboard in Resources */,
 				AD97CA622089BBBB0004D876 /* ARassets.scnassets in Resources */,
 				1A7E8C401CBFFC7400EFE574 /* Assets.xcassets in Resources */,
@@ -317,19 +357,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD56093B208BC97C00DF9C37 /* SCNNode+Extensions.swift in Sources */,
-				AD560944208CE6C200DF9C37 /* streamingServer.swift in Sources */,
+				AD56094A208CF50C00DF9C37 /* VirtualObjectSelection.swift in Sources */,
 				1A7E8C5B1CC0009500EFE574 /* Queue.swift in Sources */,
 				AD560938208BC97C00DF9C37 /* SCNVector3+Extensions.swift in Sources */,
-				AD35AF752085282A00BEDEED /* yoloObject.swift in Sources */,
+				AD35AF752085282A00BEDEED /* YoloObject.swift in Sources */,
+				AD0B8DFF208E2F1F00CB59FC /* SwiftLRU.swift in Sources */,
 				AD56093D208BC9D300DF9C37 /* Utilities.swift in Sources */,
 				93DE98311FDEB62A0048600F /* IPChecker.m in Sources */,
 				AD35AF722083D51200BEDEED /* CloudChaserClient.swift in Sources */,
-				AD560942208CE23A00DF9C37 /* inceptionDetect.swift in Sources */,
+				AD560942208CE23A00DF9C37 /* InceptionDetect.swift in Sources */,
 				1A7E8C391CBFFC7400EFE574 /* AppDelegate.swift in Sources */,
+				AD560946208CEBAE00DF9C37 /* CameraViewController+StreamingServer.swift in Sources */,
 				AD56093A208BC97C00DF9C37 /* SCNMatrix4+Extensions.swift in Sources */,
 				AD560939208BC97C00DF9C37 /* SCNVector4+Extensions.swift in Sources */,
 				AD560933208BC94D00DF9C37 /* Box.swift in Sources */,
+				AD56094C208CF74700DF9C37 /* VirtualObject.swift in Sources */,
 				1A7E8C541CBFFF9A00EFE574 /* CameraViewController.swift in Sources */,
+				AD560950208D18FC00DF9C37 /* CameraViewController+Action.swift in Sources */,
 				1A7E8C561CC0005800EFE574 /* StreamingSession.swift in Sources */,
 				AD56093F208CDF6100DF9C37 /* Inceptionv3.mlmodel in Sources */,
 			);
@@ -471,7 +515,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = StreamIt/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Zen.StreamIt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -494,7 +538,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = StreamIt/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Zen.StreamIt;
 				PRODUCT_NAME = "$(TARGET_NAME)";
