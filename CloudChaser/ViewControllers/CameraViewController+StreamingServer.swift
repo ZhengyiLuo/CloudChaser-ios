@@ -18,6 +18,25 @@ extension CameraViewController: GCDAsyncSocketDelegate {
         case noClient
     }
     
+    func initializeSockets() {
+        // Intialize Socket
+        print("Client's IP \(String(describing: self.ip))")
+        self.serverSocket = GCDAsyncSocket(delegate: self, delegateQueue: self.serverQueue, socketQueue: self.socketWriteQueue)
+        
+        do {
+            try self.serverSocket?.accept(onInterface: self.ip, port: UInt16(streamPort))
+        } catch {
+            print("Could not start listening on port 8080 (\(error))")
+        }
+        
+        
+        if let ip = self.ip {
+            ipAddress = "http://\(ip):8080"
+        } else {
+            ipAddress = "IP address not available"
+        }
+    }
+    
     func socket(_ sock: GCDAsyncSocket, didAcceptNewSocket newSocket: GCDAsyncSocket) {
         print("New client from IP \(newSocket.connectedHost ?? "unknown")")
         guard let clientId = newSocket.connectedAddress?.hashValue else { return }

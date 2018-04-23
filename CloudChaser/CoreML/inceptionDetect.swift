@@ -76,9 +76,12 @@ class InceptionDetect{
 //            print("--")
             
             // Display Debug Text on screen
-            var debugText:String = ""
-            debugText += classifications
-            self.mainView.debugTextView.text = debugText
+            if self.mainView.isDebugging{
+                var debugText:String = ""
+                debugText += classifications
+                self.mainView.debugTextView.text = debugText
+            }
+            
             
             // Store the latest prediction
             var objectName:String = "…"

@@ -62,7 +62,7 @@ extension CameraViewController: UIPopoverPresentationControllerDelegate, Virtual
         case "disconnect":
             disconnectToChase()
         case "reset":
-            return
+            reset()
         default:
             return 
         }

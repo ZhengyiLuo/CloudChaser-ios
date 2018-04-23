@@ -16,6 +16,7 @@
 		1A7E8C5B1CC0009500EFE574 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7E8C571CC0009500EFE574 /* Queue.swift */; };
 		93DE98311FDEB62A0048600F /* IPChecker.m in Sources */ = {isa = PBXBuildFile; fileRef = 93DE98301FDEB62A0048600F /* IPChecker.m */; };
 		AD0B8DFF208E2F1F00CB59FC /* SwiftLRU.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0B8DFE208E2F1F00CB59FC /* SwiftLRU.swift */; };
+		AD0B8E01208E410500CB59FC /* CameraViewController+ARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0B8E00208E410500CB59FC /* CameraViewController+ARView.swift */; };
 		AD35AF722083D51200BEDEED /* CloudChaserClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD35AF712083D51100BEDEED /* CloudChaserClient.swift */; };
 		AD35AF752085282A00BEDEED /* YoloObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD35AF742085282A00BEDEED /* YoloObject.swift */; };
 		AD560933208BC94D00DF9C37 /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD560932208BC94C00DF9C37 /* Box.swift */; };
@@ -51,6 +52,7 @@
 		93DE982F1FDEB62A0048600F /* IPChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPChecker.h; sourceTree = "<group>"; };
 		93DE98301FDEB62A0048600F /* IPChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPChecker.m; sourceTree = "<group>"; };
 		AD0B8DFE208E2F1F00CB59FC /* SwiftLRU.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftLRU.swift; sourceTree = "<group>"; };
+		AD0B8E00208E410500CB59FC /* CameraViewController+ARView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+ARView.swift"; sourceTree = "<group>"; };
 		AD35AF712083D51100BEDEED /* CloudChaserClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudChaserClient.swift; sourceTree = "<group>"; };
 		AD35AF742085282A00BEDEED /* YoloObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoloObject.swift; sourceTree = "<group>"; };
 		AD560932208BC94C00DF9C37 /* Box.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 				1A7E8C531CBFFF9A00EFE574 /* CameraViewController.swift */,
 				AD560945208CEBAE00DF9C37 /* CameraViewController+StreamingServer.swift */,
 				AD56094F208D18FC00DF9C37 /* CameraViewController+Action.swift */,
+				AD0B8E00208E410500CB59FC /* CameraViewController+ARView.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 				AD0B8DFF208E2F1F00CB59FC /* SwiftLRU.swift in Sources */,
 				AD56093D208BC9D300DF9C37 /* Utilities.swift in Sources */,
 				93DE98311FDEB62A0048600F /* IPChecker.m in Sources */,
+				AD0B8E01208E410500CB59FC /* CameraViewController+ARView.swift in Sources */,
 				AD35AF722083D51200BEDEED /* CloudChaserClient.swift in Sources */,
 				AD560942208CE23A00DF9C37 /* InceptionDetect.swift in Sources */,
 				1A7E8C391CBFFC7400EFE574 /* AppDelegate.swift in Sources */,

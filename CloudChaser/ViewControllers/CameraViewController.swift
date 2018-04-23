@@ -14,9 +14,7 @@ import ARKit
 
 
 
-class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate, UIGestureRecognizerDelegate{
-    
-    
+class CameraViewController: UIViewController,  UIGestureRecognizerDelegate{
     
     @IBOutlet weak var statusView: UITextView!
     @IBOutlet weak var ledImage: UIImageView!
@@ -27,8 +25,8 @@ class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
     
     let streamPort = 8080
     
-        let cloudChaserServerUrl = "http://65.49.81.103:8080/ws"
-//    let cloudChaserServerUrl = "http://158.130.62.103:8080/ws"
+    let cloudChaserServerUrl = "http://65.49.81.103:8080/ws"
+    //    let cloudChaserServerUrl = "http://158.130.62.103:8080/ws"
     let ip = IPChecker.getIP()
     let context = CIContext(options: nil)
     var clients = [Int: StreamingSession]()
@@ -44,8 +42,8 @@ class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
     let serverQueue = DispatchQueue(label: "ServerQueue", attributes: [])
     let clientQueue = DispatchQueue(label: "ClientQueue", attributes: .concurrent)
     let socketWriteQueue = DispatchQueue(label: "SocketWriteQueue", attributes: .concurrent)
-    
-   
+    let isDebugging = false
+    var isResizing = true
     var chaseClient: CloudChaserClient!
     
     static var imagOrientation: UIImageOrientation = UIImageOrientation.up
@@ -71,62 +69,17 @@ class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
         super.viewDidLoad()
         statusView.text = "Initiazling"
         // Intialize AR World Tracking
-        guard ARWorldTrackingConfiguration.isSupported else {
-            fatalError("""
-                ARKit is not available on this device. For apps that require ARKit
-                for core functionality, use the `arkit` key in the key in the
-                `UIRequiredDeviceCapabilities` section of the Info.plist to prevent
-                the app from installing. (If the app can't be installed, this error
-                can't be triggered in a production scenario.)
-                In apps where AR is an additive feature, use `isSupported` to
-                determine whether to show UI for launching AR experiences.
-            """) // For details, see https://developer.apple.com/documentation/arkit
-        }
-        
-        // Intialize Socket
-        print("Client's IP \(String(describing: self.ip))")
-        self.serverSocket = GCDAsyncSocket(delegate: self, delegateQueue: self.serverQueue, socketQueue: self.socketWriteQueue)
-        
-        do {
-            try self.serverSocket?.accept(onInterface: self.ip, port: UInt16(streamPort))
-        } catch {
-            print("Could not start listening on port 8080 (\(error))")
-        }
         
         
-        if let ip = self.ip {
-            ipAddress = "http://\(ip):8080"
-        } else {
-            ipAddress = "IP address not available"
-        }
+        // Intialize Sockets
+        initializeSockets()
         
-        // Start the view's AR session with a configuration that uses the rear camera,
-        // device position and orientation tracking, and plane detection.
-        let configuration = ARWorldTrackingConfiguration()
-        
-        if #available(iOS 11.3, *) {
-            configuration.planeDetection = [.horizontal, .vertical]
-        } else {
-            // Fallback on earlier versions
-        }
-        
-        arView.session.run(configuration)
-        
-        // Set a delegate to track the number of plane anchors for providing UI feedback.
-        arView.session.delegate = self
+        // Initialize AR
+        initalizeAR()
         
         // Prevent the screen from being dimmed after a while as users will likely
         // have long periods of interaction without touching the screen or buttons.
         UIApplication.shared.isIdleTimerDisabled = true
-        
-        // Show debug UI to view performance metrics (e.g. frames per second).
-        //        arView.showsStatistics = true
-        
-        NotificationCenter.default.addObserver(forName: .UIDeviceOrientationDidChange,
-                                               object: nil,
-                                               queue: .main,
-                                               using: didRotate)
-        //        beginSession()
         
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(singleTapGesture(_:)))
         singleTap.numberOfTapsRequired = 1
@@ -134,6 +87,7 @@ class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
         statusView.text = "Running Local Detection"
         clientStatus = .noClient
         inception = InceptionDetect(view: self)
+        debugTextView.isHidden = !isDebugging
     }
     
     @objc func singleTapGesture(_ sender : UITapGestureRecognizer) {
@@ -198,11 +152,17 @@ class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
                     let currentImg = frame.capturedImage
                     let sourceImage = CIImage(cvImageBuffer: currentImg, options: nil)
                     guard let tempImage = self.context.createCGImage(sourceImage, from: sourceImage.extent) else { return }
-//                    let uiimage = UIImage(cgImage: tempImage, scale: 0.5, orientation: CameraViewController.imagOrientation)
+                    //                    let uiimage = UIImage(cgImage: tempImage, scale: 0.5, orientation: CameraViewController.imagOrientation)
                     let uiimage = UIImage(cgImage: tempImage)
+                    var imageToSend:  Data? = nil
+                    if self.isResizing{
+                        imageToSend = UIImageJPEGRepresentation(self.resizeImage(image: uiimage), 0)
+                    } else {
+                        imageToSend = UIImageJPEGRepresentation(uiimage, 0)
+                    }
                     
-                    //                let imageToSend = UIImageJPEGRepresentation(self.resizeImage(image: uiimage), 0)
-                    let imageToSend = UIImageJPEGRepresentation(uiimage, 0)
+                    
+                    
                     
                     for (key, client) in self.clients {
                         if client.connected {
@@ -220,26 +180,13 @@ class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
         
         
         
-        
-        
-        //
-        //                var currObj = ""
-        //                for obj in objs{
-        //                    currObj.append(obj.objectName!)
-        //                    currObj.append("\n")
-        //
-        //
-        //
-        //
-        //                                debugTextView.text = currObj
-        
-        
     }
     
     func connectToChase(){
         chaseClient = CloudChaserClient(serverUrl: cloudChaserServerUrl, phoneUrl: "http://\(self.ip!):8080", view: self)
         chaseClient.connect()
         clientStatus = .hasClient
+        statusView.text = "Contacting Remote Server"
     }
     
     func disconnectToChase(){
@@ -250,7 +197,26 @@ class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
             chaseClient = nil
             clientStatus = .noClient
             inception = InceptionDetect(view: self)
+            statusView.text = "Running Local Detection"
         }
+    }
+    
+    func reset(){
+        arView.session.pause()
+        
+        arView.scene.rootNode.enumerateChildNodes { (node, stop) in
+            node.removeFromParentNode() }
+        
+        if clientStatus == .hasClient{
+            if chaseClient.isConnected(){
+                chaseClient.disconnect()
+            }
+            chaseClient = nil
+            clientStatus = .noClient
+            inception = InceptionDetect(view: self)
+            statusView.text = "Running Local Detection"
+        }
+        initalizeAR()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
