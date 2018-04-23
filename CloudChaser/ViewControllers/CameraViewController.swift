@@ -45,10 +45,10 @@ class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
     let clientQueue = DispatchQueue(label: "ClientQueue", attributes: .concurrent)
     let socketWriteQueue = DispatchQueue(label: "SocketWriteQueue", attributes: .concurrent)
     
-    static var imagOrientation: UIImageOrientation = UIImageOrientation.up
-    
+   
     var chaseClient: CloudChaserClient!
     
+    static var imagOrientation: UIImageOrientation = UIImageOrientation.up
     var didRotate: (Notification) -> Void = { notification in
         switch UIDevice.current.orientation {
         case .landscapeRight:
@@ -198,7 +198,8 @@ class CameraViewController: UIViewController, ARSCNViewDelegate, ARSessionDelega
                     let currentImg = frame.capturedImage
                     let sourceImage = CIImage(cvImageBuffer: currentImg, options: nil)
                     guard let tempImage = self.context.createCGImage(sourceImage, from: sourceImage.extent) else { return }
-                    let uiimage = UIImage(cgImage: tempImage, scale: 0.5, orientation: CameraViewController.imagOrientation)
+//                    let uiimage = UIImage(cgImage: tempImage, scale: 0.5, orientation: CameraViewController.imagOrientation)
+                    let uiimage = UIImage(cgImage: tempImage)
                     
                     //                let imageToSend = UIImageJPEGRepresentation(self.resizeImage(image: uiimage), 0)
                     let imageToSend = UIImageJPEGRepresentation(uiimage, 0)

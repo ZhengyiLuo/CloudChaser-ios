@@ -32,11 +32,12 @@
 		AD560950208D18FC00DF9C37 /* CameraViewController+Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD56094F208D18FC00DF9C37 /* CameraViewController+Action.swift */; };
 		AD8F75FB208D1DDE00FF3B8A /* Models.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = AD560953208D1B5E00DF9C37 /* Models.scnassets */; };
 		AD97CA622089BBBB0004D876 /* ARassets.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = AD97CA612089BBBB0004D876 /* ARassets.scnassets */; };
-		D7648D95123244066480132D /* Pods_StreamIt.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE17C80916AC28319CB7FD0F /* Pods_StreamIt.framework */; };
+		F6023127DBB22023997FA341 /* Pods_CloudChaser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5501D8D9C292C1EB31F2A19D /* Pods_CloudChaser.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1A7E8C351CBFFC7400EFE574 /* StreamIt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StreamIt.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A79ABCAAE1F692F72FA3F61 /* Pods-CloudChaser.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudChaser.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CloudChaser/Pods-CloudChaser.debug.xcconfig"; sourceTree = "<group>"; };
+		1A7E8C351CBFFC7400EFE574 /* CloudChaser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudChaser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A7E8C381CBFFC7400EFE574 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A7E8C3D1CBFFC7400EFE574 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1A7E8C3F1CBFFC7400EFE574 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -46,6 +47,7 @@
 		1A7E8C531CBFFF9A00EFE574 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		1A7E8C551CC0005800EFE574 /* StreamingSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamingSession.swift; sourceTree = "<group>"; };
 		1A7E8C571CC0009500EFE574 /* Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
+		5501D8D9C292C1EB31F2A19D /* Pods_CloudChaser.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloudChaser.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		93DE982F1FDEB62A0048600F /* IPChecker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPChecker.h; sourceTree = "<group>"; };
 		93DE98301FDEB62A0048600F /* IPChecker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IPChecker.m; sourceTree = "<group>"; };
 		AD0B8DFE208E2F1F00CB59FC /* SwiftLRU.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftLRU.swift; sourceTree = "<group>"; };
@@ -65,9 +67,7 @@
 		AD56094F208D18FC00DF9C37 /* CameraViewController+Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+Action.swift"; sourceTree = "<group>"; };
 		AD560953208D1B5E00DF9C37 /* Models.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = Models.scnassets; sourceTree = "<group>"; };
 		AD97CA612089BBBB0004D876 /* ARassets.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = ARassets.scnassets; sourceTree = "<group>"; };
-		E0B436531F2AD1B9C355A31E /* Pods-StreamIt.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StreamIt.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StreamIt/Pods-StreamIt.debug.xcconfig"; sourceTree = "<group>"; };
-		EE17C80916AC28319CB7FD0F /* Pods_StreamIt.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StreamIt.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F9ABB0DB16BDA1B1F99D903B /* Pods-StreamIt.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StreamIt.release.xcconfig"; path = "Pods/Target Support Files/Pods-StreamIt/Pods-StreamIt.release.xcconfig"; sourceTree = "<group>"; };
+		E381C1D73F6265FC857594A9 /* Pods-CloudChaser.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudChaser.release.xcconfig"; path = "Pods/Target Support Files/Pods-CloudChaser/Pods-CloudChaser.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,7 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D7648D95123244066480132D /* Pods_StreamIt.framework in Frameworks */,
+				F6023127DBB22023997FA341 /* Pods_CloudChaser.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,7 +85,7 @@
 		1A7E8C2C1CBFFC7400EFE574 = {
 			isa = PBXGroup;
 			children = (
-				1A7E8C371CBFFC7400EFE574 /* StreamIt */,
+				1A7E8C371CBFFC7400EFE574 /* CloudChaser */,
 				1A7E8C361CBFFC7400EFE574 /* Products */,
 				D50175903BB9C06BAEEED8A7 /* Pods */,
 				C719A516A1D03E16DA84CA2A /* Frameworks */,
@@ -95,12 +95,12 @@
 		1A7E8C361CBFFC7400EFE574 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1A7E8C351CBFFC7400EFE574 /* StreamIt.app */,
+				1A7E8C351CBFFC7400EFE574 /* CloudChaser.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1A7E8C371CBFFC7400EFE574 /* StreamIt */ = {
+		1A7E8C371CBFFC7400EFE574 /* CloudChaser */ = {
 			isa = PBXGroup;
 			children = (
 				AD560954208D1B9C00DF9C37 /* Resources */,
@@ -115,7 +115,7 @@
 				93DE982E1FDEB62A0048600F /* IPChecker */,
 				1A7E8C4E1CBFFEE900EFE574 /* StreamIt-Bridging-Header.h */,
 			);
-			path = StreamIt;
+			path = CloudChaser;
 			sourceTree = "<group>";
 		};
 		93DE982E1FDEB62A0048600F /* IPChecker */ = {
@@ -194,7 +194,7 @@
 		C719A516A1D03E16DA84CA2A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				EE17C80916AC28319CB7FD0F /* Pods_StreamIt.framework */,
+				5501D8D9C292C1EB31F2A19D /* Pods_CloudChaser.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -202,8 +202,8 @@
 		D50175903BB9C06BAEEED8A7 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				E0B436531F2AD1B9C355A31E /* Pods-StreamIt.debug.xcconfig */,
-				F9ABB0DB16BDA1B1F99D903B /* Pods-StreamIt.release.xcconfig */,
+				1A79ABCAAE1F692F72FA3F61 /* Pods-CloudChaser.debug.xcconfig */,
+				E381C1D73F6265FC857594A9 /* Pods-CloudChaser.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -211,9 +211,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1A7E8C341CBFFC7400EFE574 /* StreamIt */ = {
+		1A7E8C341CBFFC7400EFE574 /* CloudChaser */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1A7E8C471CBFFC7400EFE574 /* Build configuration list for PBXNativeTarget "StreamIt" */;
+			buildConfigurationList = 1A7E8C471CBFFC7400EFE574 /* Build configuration list for PBXNativeTarget "CloudChaser" */;
 			buildPhases = (
 				693C31DB8A98D9A637D066D5 /* [CP] Check Pods Manifest.lock */,
 				1A7E8C311CBFFC7400EFE574 /* Sources */,
@@ -227,9 +227,9 @@
 			);
 			dependencies = (
 			);
-			name = StreamIt;
+			name = CloudChaser;
 			productName = StreamIt;
-			productReference = 1A7E8C351CBFFC7400EFE574 /* StreamIt.app */;
+			productReference = 1A7E8C351CBFFC7400EFE574 /* CloudChaser.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -249,7 +249,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 1A7E8C301CBFFC7400EFE574 /* Build configuration list for PBXProject "StreamIt" */;
+			buildConfigurationList = 1A7E8C301CBFFC7400EFE574 /* Build configuration list for PBXProject "CloudChaser" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -262,7 +262,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1A7E8C341CBFFC7400EFE574 /* StreamIt */,
+				1A7E8C341CBFFC7400EFE574 /* CloudChaser */,
 			);
 		};
 /* End PBXProject section */
@@ -308,7 +308,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-StreamIt/Pods-StreamIt-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CloudChaser/Pods-CloudChaser-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		510BA0BD661416A2B07987E6 /* [CP] Embed Pods Frameworks */ = {
@@ -317,7 +317,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-StreamIt/Pods-StreamIt-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-CloudChaser/Pods-CloudChaser-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework",
 				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
 			);
@@ -328,7 +328,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-StreamIt/Pods-StreamIt-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CloudChaser/Pods-CloudChaser-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		693C31DB8A98D9A637D066D5 /* [CP] Check Pods Manifest.lock */ = {
@@ -342,7 +342,7 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-StreamIt-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-CloudChaser-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -505,7 +505,7 @@
 		};
 		1A7E8C481CBFFC7400EFE574 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E0B436531F2AD1B9C355A31E /* Pods-StreamIt.debug.xcconfig */;
+			baseConfigurationReference = 1A79ABCAAE1F692F72FA3F61 /* Pods-CloudChaser.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -514,12 +514,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = StreamIt/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/CloudChaser/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Zen.StreamIt;
+				PRODUCT_BUNDLE_IDENTIFIER = "Zen.-CloudChaser";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "StreamIt/StreamIt-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "CloudChaser/StreamIt-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -528,7 +528,7 @@
 		};
 		1A7E8C491CBFFC7400EFE574 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F9ABB0DB16BDA1B1F99D903B /* Pods-StreamIt.release.xcconfig */;
+			baseConfigurationReference = E381C1D73F6265FC857594A9 /* Pods-CloudChaser.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -537,12 +537,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
-				INFOPLIST_FILE = StreamIt/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/CloudChaser/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = Zen.StreamIt;
+				PRODUCT_BUNDLE_IDENTIFIER = "Zen.-CloudChaser";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "StreamIt/StreamIt-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "CloudChaser/StreamIt-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -551,7 +551,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1A7E8C301CBFFC7400EFE574 /* Build configuration list for PBXProject "StreamIt" */ = {
+		1A7E8C301CBFFC7400EFE574 /* Build configuration list for PBXProject "CloudChaser" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1A7E8C451CBFFC7400EFE574 /* Debug */,
@@ -560,7 +560,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1A7E8C471CBFFC7400EFE574 /* Build configuration list for PBXNativeTarget "StreamIt" */ = {
+		1A7E8C471CBFFC7400EFE574 /* Build configuration list for PBXNativeTarget "CloudChaser" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1A7E8C481CBFFC7400EFE574 /* Debug */,
