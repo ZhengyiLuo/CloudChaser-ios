@@ -33,6 +33,7 @@
 		AD560950208D18FC00DF9C37 /* CameraViewController+Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD56094F208D18FC00DF9C37 /* CameraViewController+Action.swift */; };
 		AD8F75FB208D1DDE00FF3B8A /* Models.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = AD560953208D1B5E00DF9C37 /* Models.scnassets */; };
 		AD97CA622089BBBB0004D876 /* ARassets.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = AD97CA612089BBBB0004D876 /* ARassets.scnassets */; };
+		ADF9BACF262D09500007FD1E /* CameraViewController+VideoRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF9BACE262D09500007FD1E /* CameraViewController+VideoRecorder.swift */; };
 		F6023127DBB22023997FA341 /* Pods_CloudChaser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5501D8D9C292C1EB31F2A19D /* Pods_CloudChaser.framework */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +70,7 @@
 		AD56094F208D18FC00DF9C37 /* CameraViewController+Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+Action.swift"; sourceTree = "<group>"; };
 		AD560953208D1B5E00DF9C37 /* Models.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = Models.scnassets; sourceTree = "<group>"; };
 		AD97CA612089BBBB0004D876 /* ARassets.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = ARassets.scnassets; sourceTree = "<group>"; };
+		ADF9BACE262D09500007FD1E /* CameraViewController+VideoRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CameraViewController+VideoRecorder.swift"; sourceTree = "<group>"; };
 		E381C1D73F6265FC857594A9 /* Pods-CloudChaser.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CloudChaser.release.xcconfig"; path = "Pods/Target Support Files/Pods-CloudChaser/Pods-CloudChaser.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -166,6 +168,7 @@
 			children = (
 				AD560949208CF50C00DF9C37 /* VirtualObjectSelection.swift */,
 				1A7E8C531CBFFF9A00EFE574 /* CameraViewController.swift */,
+				ADF9BACE262D09500007FD1E /* CameraViewController+VideoRecorder.swift */,
 				AD560945208CEBAE00DF9C37 /* CameraViewController+StreamingServer.swift */,
 				AD56094F208D18FC00DF9C37 /* CameraViewController+Action.swift */,
 				AD0B8E00208E410500CB59FC /* CameraViewController+ARView.swift */,
@@ -257,6 +260,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -378,6 +382,7 @@
 				AD56094C208CF74700DF9C37 /* VirtualObject.swift in Sources */,
 				1A7E8C541CBFFF9A00EFE574 /* CameraViewController.swift in Sources */,
 				AD560950208D18FC00DF9C37 /* CameraViewController+Action.swift in Sources */,
+				ADF9BACF262D09500007FD1E /* CameraViewController+VideoRecorder.swift in Sources */,
 				1A7E8C561CC0005800EFE574 /* StreamingSession.swift in Sources */,
 				AD56093F208CDF6100DF9C37 /* Inceptionv3.mlmodel in Sources */,
 			);
@@ -519,14 +524,14 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/CloudChaser/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Zen.-CloudChaser";
+				PRODUCT_BUNDLE_IDENTIFIER = "Zen-CloudChaser";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "CloudChaser/StreamIt-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -542,13 +547,13 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/CloudChaser/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "Zen.-CloudChaser";
+				PRODUCT_BUNDLE_IDENTIFIER = "Zen-CloudChaser";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "CloudChaser/StreamIt-Bridging-Header.h";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

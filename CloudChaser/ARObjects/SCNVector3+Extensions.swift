@@ -21,18 +21,21 @@ extension SCNVector3 {
 	static let axisZ = SCNVector3(x: 0, y: 0, z: 1)
 	
 	init(_ vec: vector_float3) {
-		self.x = vec.x
+        self.init()
+        self.x = vec.x
 		self.y = vec.y
 		self.z = vec.z
 	}
 	
 	init(_ value: Float) {
+        self.init()
 		self.x = value
 		self.y = value
 		self.z = value
 	}
 	
 	init(_ value: CGFloat) {
+        self.init()
 		self.x = Float(value)
 		self.y = Float(value)
 		self.z = Float(value)

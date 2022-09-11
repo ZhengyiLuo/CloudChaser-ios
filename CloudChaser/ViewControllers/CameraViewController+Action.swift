@@ -59,6 +59,8 @@ extension CameraViewController: UIPopoverPresentationControllerDelegate, Virtual
         switch object.modelName{
         case "connect":
             connectToChase()
+        case "stop":
+            stop()
         case "disconnect":
             disconnectToChase()
         case "reset":

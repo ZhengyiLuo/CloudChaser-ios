@@ -25,8 +25,8 @@ class CameraViewController: UIViewController,  UIGestureRecognizerDelegate{
     
     let streamPort = 8080
     
-    let cloudChaserServerUrl = "http://65.49.81.103:8080/ws"
-    //    let cloudChaserServerUrl = "http://158.130.62.103:8080/ws"
+    let cloudChaserServerUrl = "http://192.168.0.121:8080/ws"
+    
     let ip = IPChecker.getIP()
     let context = CIContext(options: nil)
     var clients = [Int: StreamingSession]()
@@ -36,27 +36,30 @@ class CameraViewController: UIViewController,  UIGestureRecognizerDelegate{
     var ipAddress = ""
     var count = 0
     var tmpBox: Box!
-    var inception: InceptionDetect!
+//    var inception: InceptionDetect!
     var clientStatus: ClientStatus!
+    var fps = 5
     
     let serverQueue = DispatchQueue(label: "ServerQueue", attributes: [])
     let clientQueue = DispatchQueue(label: "ClientQueue", attributes: .concurrent)
     let socketWriteQueue = DispatchQueue(label: "SocketWriteQueue", attributes: .concurrent)
     let isDebugging = false
-    var isResizing = true
+    var isResizing = false
+    var sending = true
     var chaseClient: CloudChaserClient!
+    var objPosition: SCNVector3!
     
-    static var imagOrientation: UIImageOrientation = UIImageOrientation.up
+    static var imagOrientation: UIImage.Orientation = UIImage.Orientation.up
     var didRotate: (Notification) -> Void = { notification in
         switch UIDevice.current.orientation {
         case .landscapeRight:
-            imagOrientation = UIImageOrientation.down
+            imagOrientation = UIImage.Orientation.down
         case .landscapeLeft:
-            imagOrientation = UIImageOrientation.up
+            imagOrientation = UIImage.Orientation.up
         case .portrait :
-            imagOrientation = UIImageOrientation.right
+            imagOrientation = UIImage.Orientation.right
         case .portraitUpsideDown:
-            imagOrientation = UIImageOrientation.left
+            imagOrientation = UIImage.Orientation.left
         default:
             return
             //            print("other")
@@ -64,10 +67,88 @@ class CameraViewController: UIViewController,  UIGestureRecognizerDelegate{
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                if granted {
+                    
+                    self._setupCaptureSession()
+                }
+            }
+        case .restricted:
+            break
+        case .denied:
+            break
+        case .authorized:
+            _setupCaptureSession()
+        }
+    }
+
+    public var _captureSession: AVCaptureSession?
+    public var _videoOutput: AVCaptureVideoDataOutput?
+    public var _assetWriter: AVAssetWriter?
+    public var _assetWriterInput: AVAssetWriterInput?
+    public var _adpater: AVAssetWriterInputPixelBufferAdaptor?
+    public var _filename = ""
+    public var _time: Double = 0
+    public func _setupCaptureSession() {
+//        print("!!!!!!!!!!!")
+        
+//        let session = AVCaptureSession()
+//        session.sessionPreset = .hd1920x1080
+//
+//        guard
+//            let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .unspecified),
+//            let input = try? AVCaptureDeviceInput(device: device),
+//            session.canAddInput(input) else { return }
+//
+//        session.beginConfiguration()
+//        session.addInput(input)
+//        session.commitConfiguration()
+//
+//        let output = AVCaptureVideoDataOutput()
+//        guard session.canAddOutput(output) else { return }
+//        output.setSampleBufferDelegate(self, queue: DispatchQueue(label: "com.yusuke024.video"))
+//        session.beginConfiguration()
+//        session.addOutput(output)
+//        session.commitConfiguration()
+//
+//        DispatchQueue.main.async {
+//            let previewView = _PreviewView()
+//            previewView.videoPreviewLayer.session = session
+//            previewView.frame = self.view.bounds
+//            previewView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//            self.view.insertSubview(previewView, at: 0)
+//        }
+
+//        session.startRunning()
+//        _videoOutput = output
+//        _captureSession = session
+    }
+
+    public enum _CaptureState {
+        case idle, start, capturing, end
+    }
+    public var _captureState = _CaptureState.idle
+    @IBAction func capture(_ sender: Any) {
+        switch _captureState {
+        case .idle:
+            _captureState = .start
+        case .capturing:
+            _captureState = .end
+        default:
+            break
+        }
+    }
+    
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        statusView.text = "Initiazling"
+//        statusView.text = "Initiazling"
         // Intialize AR World Tracking
         
         
@@ -84,23 +165,25 @@ class CameraViewController: UIViewController,  UIGestureRecognizerDelegate{
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(singleTapGesture(_:)))
         singleTap.numberOfTapsRequired = 1
         arView.addGestureRecognizer(singleTap)
-        statusView.text = "Running Local Detection"
+//        statusView.text = "Running Local Detection"
         clientStatus = .noClient
-        inception = InceptionDetect(view: self)
+//        inception = InceptionDetect(view: self)
         debugTextView.isHidden = !isDebugging
     }
     
     @objc func singleTapGesture(_ sender : UITapGestureRecognizer) {
         
-        if clientStatus == .noClient{
+            arView.scene.rootNode.enumerateChildNodes { (node, stop) in
+                node.removeFromParentNode()
+            }
             guard let nodePosition = hitWorldPoint(x: arView.bounds.midX, y: arView.bounds.midY) else {return}
-            
-            let node : SCNNode = DetectedObject.createNewBubbleParentNode(inception.latestPrediction)
+            let node : SCNNode = DetectedObject.createNewBubbleParentNode("Object")
             node.position = nodePosition
             arView.scene.rootNode.addChildNode(node)
-        }
-        
-        
+            objPosition = nodePosition
+            
+
+
         //        tmpBox = Box()
         //        tmpBox.position = nodePosition
         //        tmpBox.move(side: .right, to: 0.1)
@@ -120,12 +203,14 @@ class CameraViewController: UIViewController,  UIGestureRecognizerDelegate{
             // Get Coordinates of HitTest
             let transform : matrix_float4x4 = closestResult.worldTransform
             let worldCoord : SCNVector3 = SCNVector3Make(transform.columns.3.x, transform.columns.3.y, transform.columns.3.z)
-            
-            
+        
             return worldCoord
         }
         return nil
     }
+    
+
+
     
     
     func resizeImage(image: UIImage) -> UIImage {
@@ -142,43 +227,129 @@ class CameraViewController: UIViewController,  UIGestureRecognizerDelegate{
         return image
     }
     
-    // MARK: - ARSessionDelegate
-    
-    func session(_ session: ARSession,didUpdate frame: ARFrame) {
-        
-        if clientStatus == .hasClient{
-            if count == 3{
-                DispatchQueue.global(qos: .background).async {
-                    let currentImg = frame.capturedImage
-                    let sourceImage = CIImage(cvImageBuffer: currentImg, options: nil)
-                    guard let tempImage = self.context.createCGImage(sourceImage, from: sourceImage.extent) else { return }
-                    //                    let uiimage = UIImage(cgImage: tempImage, scale: 0.5, orientation: CameraViewController.imagOrientation)
-                    let uiimage = UIImage(cgImage: tempImage)
-                    var imageToSend:  Data? = nil
-                    if self.isResizing{
-                        imageToSend = UIImageJPEGRepresentation(self.resizeImage(image: uiimage), 0)
-                    } else {
-                        imageToSend = UIImageJPEGRepresentation(uiimage, 0)
-                    }
-                    
-                    
-                    
-                    
-                    for (key, client) in self.clients {
-                        if client.connected {
-                            client.dataToSend = (imageToSend as NSData?)?.copy() as? Data
-                        } else {
-                            self.clients.removeValue(forKey: key)
-                        }
-                    }
-                }
-                count = 0
-            } else {
-                count += 1
-            }
+    func saveImage(image: UIImage) -> Bool {
+        guard let data = image.jpegData(compressionQuality: 1) ?? image.pngData() else {
+            return false
         }
+        guard let directory = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false) as NSURL else {
+            return false
+        }
+        do {
+            try data.write(to: directory.appendingPathComponent("fileName.png")!)
+            return true
+        } catch {
+            print(error.localizedDescription)
+            return false
+        }
+    }
+    
+    @IBAction func btnStart(_ sender: UIButton) {
+        
+//        connectToChase()
+        
+    }
+    
+    
+    @IBAction func btnStop(_ sender: UIButton) {
+        stop()
+    }
+    
+    // MARK: - ARSessionDelegate
+    func session(_ session: ARSession,didUpdate frame: ARFrame) {
+        var sendJson : [String: String] = [:]
         
         
+//        if clientStatus == .hasClient && self.sending{
+//
+//            let currentTransform = frame.camera.transform
+//            let floatArray = (0..<4).flatMap { x in (0..<4).map { y in currentTransform[x][y] } }
+//            let stringArray = floatArray.map { String($0) }
+//            let tranformString = stringArray.joined(separator: " ")
+//            let now = Date()
+//            let formatter = DateFormatter()
+//            formatter.timeZone = TimeZone.current
+//            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss:SSS"
+//            let dateString = formatter.string(from: now)
+////            print(dateString)
+//
+//            sendJson["camPose"] = tranformString
+//            sendJson["timeStamp"] = dateString
+//            if self.objPosition != nil{
+//                sendJson["objPose"] = [self.objPosition.x, self.objPosition.y, self.objPosition.z].map{String($0)}.joined(separator: " ")
+//            }
+//            do{
+//                let jsonData = try JSONSerialization.data(withJSONObject: sendJson, options: .prettyPrinted)
+//                let jsonString = String(data: jsonData, encoding: .utf8)!
+//                let currentImg = frame.capturedImage
+//                let sourceImage = CIImage(cvImageBuffer: currentImg, options: nil)
+//                guard let tempImage = self.context.createCGImage(sourceImage, from: sourceImage.extent) else { return }
+//                let uiimage = UIImage(cgImage: tempImage)
+//                var imageToSend:  Data? = nil
+//                if self.isResizing{
+//                    imageToSend = UIImageJPEGRepresentation(self.resizeImage(image: uiimage), 0)
+//                } else {
+//                    imageToSend = UIImageJPEGRepresentation(uiimage, 0)
+//                }
+//
+//                DispatchQueue.global(qos: .background).async {
+//                    self.chaseClient.write(string: jsonString)
+//                    self.chaseClient.write(data: (imageToSend as? NSData)! as! Data)
+//
+//                    }
+//
+//            } catch{
+//                print(error.localizedDescription)
+//            }
+//        }
+        
+            let currentTransform = frame.camera.transform
+            let floatArray = (0..<4).flatMap { x in (0..<4).map { y in currentTransform[x][y] } }
+            let stringArray = floatArray.map { String($0) }
+            let tranformString = stringArray.joined(separator: " ")
+            let now = Date()
+            let formatter = DateFormatter()
+            formatter.timeZone = TimeZone.current
+            formatter.dateFormat = "yyyy-MM-dd HH:mm:ss:SSS"
+            let dateString = formatter.string(from: now)
+//            print(dateString)
+
+//            sendJson["camPose"] = tranformString
+//            sendJson["timeStamp"] = dateString
+//            if self.objPosition != nil{
+//                sendJson["objPose"] = [self.objPosition.x, self.objPosition.y, self.objPosition.z].map{String($0)}.joined(separator: " ")
+//            }
+//            do{
+//                let jsonData = try JSONSerialization.data(withJSONObject: sendJson, options: .prettyPrinted)
+//                let jsonString = String(data: jsonData, encoding: .utf8)!
+                let currentImg = frame.capturedImage
+                let sourceImage = CIImage(cvImageBuffer: currentImg, options: nil)
+        
+//                guard let tempImage = self.context.createCGImage(sourceImage, from: sourceImage.extent) else { return }
+//                let uiimage = UIImage(cgImage: tempImage)
+//                var imageToSend:  Data? = nil
+//                if self.isResizing{
+//                    imageToSend = UIImageJPEGRepresentation(self.resizeImage(image: uiimage), 0)
+//                } else {
+//                    imageToSend = UIImageJPEGRepresentation(uiimage, 0)
+//                }
+//
+//                DispatchQueue.global(qos: .background).async {
+//                    self.chaseClient.write(string: jsonString)
+//                    self.chaseClient.write(data: (imageToSend as? NSData)! as! Data)
+//
+//                    }
+        
+    }
+    
+    func stop() {
+        print("stop session")
+//        DispatchQueue.global(qos: .background).async {
+//            self.chaseClient.write(string: "close")
+//        }
+//
+//        self.sending = false
+//        let generator = UINotificationFeedbackGenerator()
+//        generator.notificationOccurred(.success)
         
     }
     
@@ -186,7 +357,10 @@ class CameraViewController: UIViewController,  UIGestureRecognizerDelegate{
         chaseClient = CloudChaserClient(serverUrl: cloudChaserServerUrl, phoneUrl: "http://\(self.ip!):8080", view: self)
         chaseClient.connect()
         clientStatus = .hasClient
-        statusView.text = "Contacting Remote Server"
+//        statusView.text = "Contacting Remote Server"
+        self.sending = true
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
     }
     
     func disconnectToChase(){
@@ -196,8 +370,8 @@ class CameraViewController: UIViewController,  UIGestureRecognizerDelegate{
             }
             chaseClient = nil
             clientStatus = .noClient
-            inception = InceptionDetect(view: self)
-            statusView.text = "Running Local Detection"
+//            inception = InceptionDetect(view: self)
+//            statusView.text = "Running Local Detection"
         }
     }
     
@@ -213,8 +387,8 @@ class CameraViewController: UIViewController,  UIGestureRecognizerDelegate{
             }
             chaseClient = nil
             clientStatus = .noClient
-            inception = InceptionDetect(view: self)
-            statusView.text = "Running Local Detection"
+//            inception = InceptionDetect(view: self)
+//            statusView.text = "Running Local Detection"
         }
         initalizeAR()
     }
@@ -225,8 +399,6 @@ class CameraViewController: UIViewController,  UIGestureRecognizerDelegate{
         // Pause the view's session
         arView.session.pause()
     }
-    
-    
 }
 
 
@@ -235,8 +407,20 @@ class CameraViewController: UIViewController,  UIGestureRecognizerDelegate{
 
 extension UIFont {
     // Based on: https://stackoverflow.com/questions/4713236/how-do-i-set-bold-and-italic-on-uilabel-of-iphone-ipad
-    func withTraits(traits:UIFontDescriptorSymbolicTraits...) -> UIFont {
-        let descriptor = self.fontDescriptor.withSymbolicTraits(UIFontDescriptorSymbolicTraits(traits))
+    func withTraits(traits:UIFontDescriptor.SymbolicTraits...) -> UIFont {
+        let descriptor = self.fontDescriptor.withSymbolicTraits(UIFontDescriptor.SymbolicTraits(traits))
         return UIFont(descriptor: descriptor!, size: 0)
+    }
+}
+
+
+
+public class _PreviewView: UIView {
+    public override class var layerClass: AnyClass {
+        return AVCaptureVideoPreviewLayer.self
+    }
+
+    var videoPreviewLayer: AVCaptureVideoPreviewLayer {
+        return layer as! AVCaptureVideoPreviewLayer
     }
 }

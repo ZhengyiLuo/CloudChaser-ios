@@ -132,11 +132,13 @@ extension SCNMaterial {
 extension CGPoint {
 	
 	init(_ size: CGSize) {
+        self.init()
 		self.x = size.width
 		self.y = size.height
 	}
 	
 	init(_ vector: SCNVector3) {
+        self.init()
 		self.x = CGFloat(vector.x)
 		self.y = CGFloat(vector.y)
 	}
@@ -195,7 +197,8 @@ func *= (left: inout CGPoint, right: CGFloat) {
 extension CGSize {
 	
 	init(_ point: CGPoint) {
-		self.width = point.x
+        self.init()
+        self.width = point.x
 		self.height = point.y
 	}
 	

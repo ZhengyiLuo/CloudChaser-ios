@@ -13,7 +13,8 @@ extension SCNQuaternion {
 	// Adapted from http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToQuaternion/
 	init(radians angle: Float, around axis: SCNVector3) {
 		let s = sin(angle/2)
-		self.x = axis.x * s
+        self.init()
+        self.x = axis.x * s
 		self.y = axis.y * s
 		self.z = axis.z * s
 		self.w = cos(angle/2)

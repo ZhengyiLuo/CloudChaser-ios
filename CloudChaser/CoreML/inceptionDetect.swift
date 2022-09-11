@@ -8,6 +8,7 @@
 
 import Foundation
 import Vision
+import CoreImage
 
 class InceptionDetect{
     // COREML
@@ -97,7 +98,7 @@ class InceptionDetect{
         // Get Camera Image as RGB
         let pixbuff : CVPixelBuffer? = (self.mainView.arView.session.currentFrame?.capturedImage)
         if pixbuff == nil { return }
-        let ciImage = CIImage(cvPixelBuffer: pixbuff!)
+        let ciImage = CoreImage.CIImage(cvPixelBuffer: pixbuff!)
         // Note: Not entirely sure if the ciImage is being interpreted as RGB, but for now it works with the Inception model.
         // Note2: Also uncertain if the pixelBuffer should be rotated before handing off to Vision (VNImageRequestHandler) - regardless, for now, it still works well with the Inception model.
         

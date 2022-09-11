@@ -55,6 +55,14 @@ class CloudChaserClient: WebSocketDelegate{
         chaseClientSocket.disconnect()
     }
     
+    func write(string: String) {
+        chaseClientSocket.write(string: string)
+    }
+    
+    func write(data: Data) {
+        chaseClientSocket.write(data: data)
+    }
+    
     func websocketDidConnect(socket: WebSocketClient) {
         print("websocket is connected")
         if let currentPhoneUrl = self.phoneUrl{
